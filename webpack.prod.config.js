@@ -7,7 +7,6 @@ module.exports = {
   output: {
     filename: './dist/bundle.js',
   },
-  devtool: 'source-map',
   tagget: 'node',
   resolve: {
     extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
@@ -15,9 +14,6 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.tsx?$/, loader: 'ts-loader' },
-    ],
-    preLoaders: [
-      { test: /\.js$/, loader: 'source-map-loader' }
     ]
   },
   plugins: [
