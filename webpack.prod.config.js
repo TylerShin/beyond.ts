@@ -1,24 +1,20 @@
-require('extract-text-webpack-plugin');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const DashboardPlugin = require('webpack-dashboard/plugin');
 
 module.exports = {
   entry: [
-    'webpack/hot/dev-server',
     './src/index.tsx',
   ],
   output: {
     filename: './dist/bundle.js',
   },
   devtool: 'source-map',
+  tagget: 'node',
   resolve: {
     extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
   },
   module: {
     loaders: [
       { test: /\.tsx?$/, loader: 'ts-loader' },
-      { test: /\.html$/, loader: 'raw' },
     ],
     preLoaders: [
       { test: /\.js$/, loader: 'source-map-loader' }
@@ -26,14 +22,8 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development'),
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     new webpack.NoErrorsPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new DashboardPlugin(),
-    new HtmlWebpackPlugin({
-      template: 'src/index.ejs',
-      inject: false,
-    }),
   ],
 };

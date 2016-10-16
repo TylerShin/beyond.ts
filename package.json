@@ -5,6 +5,7 @@
   "main": "handler.js",
   "scripts": {
     "dev": "webpack-dashboard -- webpack-dev-server --content-base src/ --hot --host 0.0.0.0",
+    "build-prod": "webpack --content-base src/ --config webpack.prod.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -32,6 +33,9 @@
   },
   "devDependencies": {
     "@types/node": "^6.0.45",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "html-webpack-plugin": "^2.22.0",
+    "raw-loader": "^0.5.1",
     "source-map-loader": "^0.1.5",
     "ts-loader": "^0.9.1",
     "typescript": "^2.0.3",
