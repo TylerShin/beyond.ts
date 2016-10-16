@@ -17,6 +17,8 @@
     "@types/react-addons-shallow-compare": "^0.14.17",
     "@types/react-dom": "^0.14.18",
     "@types/react-redux": "^4.4.32",
+    "@types/react-router": "^2.0.38",
+    "@types/react-router-redux": "^4.0.34",
     "@types/redux": "^3.6.31",
     "@types/redux-logger": "^2.6.32",
     "@types/redux-thunk": "^2.1.31",
@@ -27,6 +29,8 @@
     "react-dom": "^15.3.2",
     "react-immutable-proptypes": "^2.1.0",
     "react-redux": "^4.4.5",
+    "react-router": "^2.8.1",
+    "react-router-redux": "^4.0.6",
     "redux": "^3.6.0",
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0"

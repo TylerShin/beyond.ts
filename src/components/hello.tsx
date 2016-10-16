@@ -1,9 +1,15 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import * as syncExampleActions from '../actions/syncExampleActions';
 
-export interface HelloProps { compiler: string; framework: string; }
+interface HelloProps { syncExample:any; }
 
 export class Hello extends React.Component<HelloProps, {}> {
     render() {
-        return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
+      console.log(this.props);
+      return (
+        <h1>Hello World!</h1>
+      );
     }
 }
