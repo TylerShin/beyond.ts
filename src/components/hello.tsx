@@ -2,14 +2,42 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as syncExampleActions from '../actions/syncExampleActions';
+import { SyncExampleState } from '../reducers/syncExample';
 
-interface HelloProps { syncExample:any; }
+interface IHelloProps extends React.Props<any> {
+  syncExample: SyncExampleState;
+  increaseCounter: () => void;
+  decreaseCounter: () => void;
+};
 
-export class Hello extends React.Component<HelloProps, {}> {
+
+function mapStateToProps(state: any) {
+  return {
+    syncExample: state.syncExample,
+  };
+}
+
+function mapDispatchToProps(dispatch: any) {
+  return {
+    increaseCounter: (): void => dispatch(),
+    decreaseCounter: (): void  => dispatch(),
+  };
+}
+
+class Hello extends React.Component<IHelloProps, {}> {
     render() {
-      console.log(this.props);
+      const { compiler, framework } = this.props.syncExample;
       return (
-        <h1>Hello World!</h1>
+        <div>
+          <h1>Hello World!</h1>
+          <div>This component is synchronously loaded!</div>
+          <div>We are using {framework} with {compiler}</div>
+        </div>
       );
     }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Hello);

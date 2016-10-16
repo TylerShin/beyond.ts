@@ -2,8 +2,8 @@ import Action from '../actions';
 import { SYNC_EXAMPLE_ACTIONS } from '../actions/syncExampleActions';
 
 export interface SyncExampleState {
-  compiler: String;
-  framework: String;
+  compiler: string;
+  framework: string;
 }
 
 export const SYNC_EXAMPLE_STATE: SyncExampleState = {

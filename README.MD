@@ -44,4 +44,6 @@ WIP
 # Todos
 - **Adding TEST**
 - **Minimizing node_modules size**
+- **Handling independent CSS with precompiler like sass**
+- **Apply ImmutbaleJS**
 - GraphQL? - I don't know why I'll need this yet.
