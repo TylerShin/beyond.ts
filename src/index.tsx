@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import { Router, Route, createMemoryHistory, hashHistory } from "react-router";
+import { RouterContext, match, Router, Route, createMemoryHistory, hashHistory } from "react-router";
 import { History } from "history";
 import { Provider } from "react-redux";
 import * as ReactRouterRedux from 'react-router-redux';
@@ -72,6 +72,12 @@ if (IS_PROD) {
   );
 }
 
+/**************************************
+ * ************************************
+ * ACTUAL RENDERING LOGIC
+ * ************************************
+ **************************************/
+
 if (!IS_PROD) {
   ReactDom.render(
     <Provider store={store}>
@@ -80,15 +86,46 @@ if (!IS_PROD) {
     document.getElementById("isomorphic-lambda")
   );
 } else {
-  const renderedHTML: string = ReactDOMServer.renderToString(
-    <Provider store={store}>
-      <Router history={appHistory} children={routes} />
-    </Provider>
-  );
-  const fullHTML: string = staticHTMLWrapper(
-    renderedHTML,
-    'http://s3.aaaa.bbb.com/bundle.js',
-    'initialState'
-  );
-  console.log(fullHTML); // Just make function and return this value to Lambda callback
+  let renderedHTML: string;
+  let stringifiedInitialReduxState: string;
+  
+  function serverSideRender(requestUrl: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      match({ routes, location: requestUrl }, (error, redirectLocation, renderProps) => {
+        if (error) {
+          // TODO: give 500 page
+        } else if (redirectLocation) {
+          // TODO: do redirect and give 302
+        } else if (renderProps) {
+          let { params } = renderProps;
+          let { query } = renderProps.location;
+          stringifiedInitialReduxState = JSON.stringify(store.getState());
+          // You can also check renderProps.components or renderProps.routes for
+          // your "not found" component or route respectively, and send a 404 as
+          // below, if you're using a catch-all route.
+          renderedHTML = ReactDOMServer.renderToString(
+            <Provider store={store}>
+              <RouterContext {...renderProps} />
+            </Provider>
+          );
+          resolve(renderedHTML);
+        } else {
+          // TODO: give 404 page
+        }
+      });
+    });
+  }
+
+  async function makeFullHtml(url: string): Promise<any> {
+    const SSRResult: string = await serverSideRender(url);
+    return Promise.resolve(staticHTMLWrapper(
+      SSRResult,
+      'http://s3.aaaa.bbb.com/bundle.js',
+      'initialState'
+    ));
+  }
+
+  makeFullHtml('/posts/1642788').then((result) => {  // TODO: Change this route dynamically following by lambda's env given by API Gateway
+    console.log(result); // Just make function and return this value to Lambda callback
+  });
 }

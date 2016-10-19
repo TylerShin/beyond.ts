@@ -7,12 +7,13 @@ module.exports = {
   output: {
     filename: './dist/bundle.js',
   },
-  tagget: 'node',
+  target: 'node',
   resolve: {
     extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
   },
   module: {
     loaders: [
+      { test: /\.json?$/, loader: 'json-loader' },
       { test: /\.tsx?$/, loader: 'ts-loader' },
     ]
   },

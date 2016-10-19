@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as syncExampleActions from '../actions/syncExampleActions';
@@ -41,3 +42,17 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Hello);
+
+export function fetch(cardId: string) {
+  return new Promise((resolve, reject) => {
+    axios.get(`https://api1.vingle.net/api/cards/${cardId}`)
+    .then((res) => {
+      console.log(res.data);
+      resolve(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+      reject(err);
+    });
+  });
+}

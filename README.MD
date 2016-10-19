@@ -2,8 +2,13 @@
 
 This project is the starter kit fot the who wants to use ReactJS isomorphic-rendering with AWS Lambda.  
 
-if you want to contribute this package, please feel free to making PR.  
-I used serveral libraries to make these posiible.
+**PLEASE! contribute this project with me!**
+
+If you want to contribute this package, please feel free to making PR.  
+I have the full time job now, so I don't have very much time now T_T
+
+
+I used serveral libraries to make these posiible.  
 
  **Packages**
 - **TypeScript** - basic language
