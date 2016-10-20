@@ -14,7 +14,7 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.json?$/, loader: 'json-loader' },
-      { test: /\.tsx?$/, loader: 'ts-loader' },
+      { test: /\.tsx?$/, loader: 'babel?presets[]=stage-0,presets[]=es2015,plugins=transform-runtime!ts' },
     ]
   },
   plugins: [

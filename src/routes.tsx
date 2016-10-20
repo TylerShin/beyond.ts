@@ -8,11 +8,12 @@ import Hello, { fetch } from './components/hello';
 const routeMap = (
   <Route path="/">
     <Route 
-      path="/posts/:postId"
+      path="/users/:username"
       getComponent={(nextState: Router.RouterState, callback: Function) => {
-        fetch(nextState.params["postId"])
+        fetch(nextState.params["username"])
           .then(() => { callback(null, Hello); })
           .catch((e: Error) => {
+            console.log(e);
             callback(null, Hello); // TODO: Should change this to 404 page.
           });
         }}

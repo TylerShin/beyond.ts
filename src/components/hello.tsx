@@ -43,9 +43,9 @@ export default connect(
   mapDispatchToProps
 )(Hello);
 
-export function fetch(cardId: string) {
+export function fetch(username: string) {
   return new Promise((resolve, reject) => {
-    axios.get(`https://api1.vingle.net/api/cards/${cardId}`)
+    axios.get(`https://api.github.com/users/${username}`)
     .then((res) => {
       console.log(res.data);
       resolve(res.data);

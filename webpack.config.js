@@ -1,7 +1,6 @@
 require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const DashboardPlugin = require('webpack-dashboard/plugin');
 
 module.exports = {
   entry: [
@@ -30,7 +29,6 @@ module.exports = {
     }),
     new webpack.NoErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new DashboardPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
       inject: false,
