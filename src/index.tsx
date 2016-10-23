@@ -121,7 +121,7 @@ export async function serverSideRender(requestUrl: string, scriptPath: string) {
     scriptPath,
     stringifiedInitialReduxState
   );
-  return fullHTML;
+  return Promise.resolve(fullHTML);
 }
 
 if (!IS_PROD) {

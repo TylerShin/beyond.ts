@@ -18,8 +18,8 @@ provider:
   runtime: nodejs4.3
 
 # you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
+  stage: dev # Override this with command-line option when you deploy to production
+  region: us-east-1
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -37,14 +37,15 @@ provider:
 #            - "Ref" : "ServerlessDeploymentBucket"
 
 # you can add packaging information here
-#package:
+package:
+  include: ./dist/bundle.js
 #  exclude:
 #    - exclude-me.js
 #  artifact: my-service-code.zip
 
 functions:
-  hello:
-    handler: handler.hello
+  ssr:
+    handler: handler.SSR
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
