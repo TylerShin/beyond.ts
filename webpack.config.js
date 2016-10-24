@@ -1,6 +1,8 @@
 require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const DashboardPlugin = require('webpack-dashboard/plugin');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
   entry: [
@@ -18,10 +20,24 @@ module.exports = {
     loaders: [
       { test: /\.tsx?$/, loader: 'ts-loader' },
       { test: /\.html$/, loader: 'raw' },
+      {
+        test: /\.scss$/,
+        loaders: [
+          'isomorphic-style-loader',
+          'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:5]',
+          'postcss-loader'
+        ]
+     }
     ],
     preLoaders: [
       { test: /\.js$/, loader: 'source-map-loader' }
     ]
+  },
+  postcss() {
+    return {
+      defaults: [autoprefixer],
+      cleaner: [autoprefixer({ browsers: [] })],
+    };
   },
   plugins: [
     new webpack.DefinePlugin({
