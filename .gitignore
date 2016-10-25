@@ -1,6 +1,7 @@
 node_modules
 dist
 dst
+.serverless/*
 
 # Logs and databases #
 ######################

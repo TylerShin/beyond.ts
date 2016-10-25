@@ -8,8 +8,22 @@ const ssr = eval(ssrString);
 module.exports.SSR = (event, context, callback) => {
   console.log('event ===================================', event);
   console.log('context ===================================', context);
-  const renderingResult = ssr.serverSideRender('/users/tylorshin', 'https://scriptPath.scriptPathHere');
-  renderingResult.then((result) => {
-    callback(null, result);
-  });
+  console.log('callback ===================================', callback);
+  ssr.serverSideRender('/users/tylorshin', 'https://scriptPath.scriptPathHere')
+    .then((result) => {
+
+      const response = {
+        statusCode: 200,
+        headers: {
+          "Content-Type": "text/html",
+          "Access-Control-Allow-Origin" : "*"
+        },
+       body: result,
+      };
+      console.log(result);
+      callback(null, response);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 }

@@ -5,8 +5,6 @@ import { bindActionCreators } from "redux";
 import * as syncExampleActions from '../actions/syncExampleActions';
 import { SyncExampleState } from '../reducers/syncExample';
 
-const withStyles: (x: any) => Function = require('isomorphic-style-loader/lib/withStyles').default;
-const styles = require('./hello.scss');
 
 interface IHelloProps extends React.Props<any> {
   syncExample: SyncExampleState;
@@ -33,8 +31,8 @@ class Hello extends React.Component<IHelloProps, {}> {
       const { compiler, framework } = this.props.syncExample;
       return (
         <div>
-          <h1 className={styles.title}>Hello World!</h1>
-          <div className={styles.subTitle}>This component is synchronously loaded!</div>
+          <h1>Hello World!</h1>
+          <div>This component is synchronously loaded!</div>
           <div>We are using {framework} with {compiler}</div>
         </div>
       );
@@ -44,7 +42,7 @@ class Hello extends React.Component<IHelloProps, {}> {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Hello));
+)(Hello);
 
 export function fetch(username: string) {
   return new Promise((resolve, reject) => {
