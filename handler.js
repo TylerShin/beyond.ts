@@ -9,9 +9,8 @@ module.exports.SSR = (event, context, callback) => {
   console.log('event ===================================', event);
   console.log('context ===================================', context);
   console.log('callback ===================================', callback);
-  ssr.serverSideRender('/users/tylorshin', 'https://scriptPath.scriptPathHere')
+  ssr.serverSideRender('/', 'https://scriptPath.scriptPathHere')
     .then((result) => {
-
       const response = {
         statusCode: 200,
         headers: {
@@ -21,7 +20,7 @@ module.exports.SSR = (event, context, callback) => {
        body: result,
       };
       console.log(result);
-      callback(null, response);
+      context.done(null, response);
     })
     .catch((err) => {
       console.error(err);
