@@ -1,20 +1,23 @@
-/// <reference path="../node_modules/@types/redux/index.d.ts"/>
-/// <reference path="../node_modules/@types/react-router-redux/index.d.ts"/>
-
+import * as Immutable from "immutable";
 import * as React from "react";
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import { RouterContext, match, Router, Route, createMemoryHistory, hashHistory } from "react-router";
-import { History } from "history";
-import { Provider } from "react-redux";
-import * as ReactRouterRedux from 'react-router-redux';
 import * as ReactDom from "react-dom";
-import thunkMiddleware from "redux-thunk";
-import rootReducer from "./reducers";
-import * as createLogger from "redux-logger";
 import * as ReactDOMServer from "react-dom/server";
-import routes from './routes';
-import * as Immutable from 'immutable';
-import { staticHTMLWrapper } from './helpers/htmlWrapper';
+import { RouterContext, match, Router, createMemoryHistory, hashHistory } from "react-router";
+import { History } from "history";
+// import Redux environment
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import * as ReactRouterRedux from "react-router-redux";
+import * as createLogger from "redux-logger";
+import thunkMiddleware from "redux-thunk";
+// import reducers
+import rootReducer from "./reducers";
+// import routes
+import routes from "./routes";
+// import components
+import CssInjector, { css } from "./components/cssInjector";
+// import helpers
+import { staticHTMLWrapper } from "./helpers/htmlWrapper";
 
 const IS_PROD: boolean = (process.env.NODE_ENV === "production");
 const IS_STAGING: boolean = (process.env.NODE_ENV === "staging");
@@ -87,7 +90,7 @@ export async function serverSideRender(requestUrl: string, scriptPath: string) {
   let renderedHTML: string;
   let stringifiedInitialReduxState: string;
 
-  const htmlResult: string = await new Promise<string>((resolve, reject) => {
+  await new Promise<string>((resolve, reject) => {
     match({ routes, location: requestUrl }, (error, redirectLocation, renderProps) => {
       if (error) {
         reject(error);
@@ -96,21 +99,23 @@ export async function serverSideRender(requestUrl: string, scriptPath: string) {
         resolve();
         // TODO: do redirect and give 302
       } else if (renderProps) {
-        let { params } = renderProps;
-        let { query } = renderProps.location;
+        // let { params } = renderProps;
+        // let { query } = renderProps.location;
         stringifiedInitialReduxState = JSON.stringify(store.getState());
         // You can also check renderProps.components or renderProps.routes for
         // your "not found" component or route respectively, and send a 404 as
         // below, if you're using a catch-all route.
         renderedHTML = ReactDOMServer.renderToString(
-          <Provider store={store}>
-            <RouterContext {...renderProps} />
-          </Provider>
+          <CssInjector>
+            <Provider store={store}>
+              <RouterContext {...renderProps} />
+            </Provider>
+          </CssInjector>
         );
 
         resolve(renderedHTML);
       } else {
-        reject(new Error("404x"))
+        reject(new Error("404x"));
         // TODO: give 404 page
       }
     });
@@ -119,16 +124,20 @@ export async function serverSideRender(requestUrl: string, scriptPath: string) {
   const fullHTML: string = staticHTMLWrapper(
     renderedHTML,
     scriptPath,
-    stringifiedInitialReduxState
+    stringifiedInitialReduxState,
+    [...css].join("")
   );
   return Promise.resolve(fullHTML);
 }
 
 if (!IS_PROD) {
   ReactDom.render(
-    <Provider store={store}>
-      <Router history={appHistory} children={routes} />
-    </Provider>,
+    <CssInjector>
+      <Provider store={store}>
+        <Router history={appHistory} children={routes} />
+      </Provider>
+    </CssInjector>
+    ,
     document.getElementById("isomorphic-lambda")
   );
 }

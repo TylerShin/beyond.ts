@@ -18,6 +18,7 @@ module.exports = {
   },
   module: {
     loaders: [
+      { test: /\.json?$/, loader: 'json-loader' },
       { test: /\.tsx?$/, loader: 'ts-loader' },
       { test: /\.html$/, loader: 'raw' },
       {
@@ -27,7 +28,7 @@ module.exports = {
           'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:5]',
           'postcss-loader'
         ]
-     }
+      }
     ],
     preLoaders: [
       { test: /\.js$/, loader: 'source-map-loader' }
@@ -45,6 +46,7 @@ module.exports = {
     }),
     new webpack.NoErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new DashboardPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
       inject: false,

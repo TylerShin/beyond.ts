@@ -2,6 +2,7 @@ node_modules
 dist
 dst
 .serverless/*
+.vscode
 
 # Logs and databases #
 ######################

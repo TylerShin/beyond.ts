@@ -1,8 +1,9 @@
 export function staticHTMLWrapper(
   reactDom: string,
   scriptPath: string,
-  initialState: string // JSON stringified string
-) {
+  initialState: string, // JSON stringified string
+  css: string
+): string {
   return `
     <!doctype html>
     <html>

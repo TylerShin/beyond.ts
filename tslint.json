@@ -1,3 +1,8 @@
 {
-  "quotemark": [true, "single", "avoid-escape"]
+  "extends": "tslint:recommended",
+  "rules": {
+    "jsdoc-format": false,
+    "no-string-literal": false,
+    "no-var-requires": false
+  }
 }
