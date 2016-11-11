@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const withStyles: (x: any) => Function = require("isomorphic-style-loader/lib/withStyles").default;
+const withStyles: (styles: any) => Function = require("isomorphic-style-loader/lib/withStyles").default;
 const styles = require("./app.scss");
 
 class App extends React.Component<{}, {}> {

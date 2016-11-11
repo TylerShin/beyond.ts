@@ -1,3 +1,7 @@
+:global {
+  @import "./bootstrap.scss";
+}
+
 .title {
   background: #e02121;
   display: flex;

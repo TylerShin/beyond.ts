@@ -26,6 +26,7 @@ module.exports = {
         loaders: [
           'isomorphic-style-loader',
           'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:5]',
+          'sass-loader',
           'postcss-loader'
         ]
       }
