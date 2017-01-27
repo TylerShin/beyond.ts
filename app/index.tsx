@@ -2,42 +2,64 @@ import * as Immutable from "immutable";
 import * as React from "react";
 import * as ReactDom from "react-dom";
 import * as ReactDOMServer from "react-dom/server";
-import { RouterContext, match, Router, createMemoryHistory, hashHistory } from "react-router";
-import { History } from "history";
-// import Redux environment
-import { createStore, applyMiddleware } from "redux";
+import { applyMiddleware, createStore } from "redux";
+import { RouterContext, match, Router, createMemoryHistory, browserHistory, hashHistory } from "react-router";
 import { Provider } from "react-redux";
+// redux middlewares
 import * as ReactRouterRedux from "react-router-redux";
-import * as createLogger from "redux-logger";
 import thunkMiddleware from "redux-thunk";
-// import reducers
-import rootReducer from "./reducers";
-// import routes
-import routes from "./routes";
-// import components
-import CssInjector, { css } from "./components/cssInjector";
-// import helpers
+import * as createLogger from "redux-logger";
+import { History } from "history";
+// helpers
 import { staticHTMLWrapper } from "./helpers/htmlWrapper";
-
-const IS_PROD: boolean = (process.env.NODE_ENV === "production");
-const IS_STAGING: boolean = (process.env.NODE_ENV === "staging");
+import EnvChecker from "./helpers/envChecker";
+import CssInjector, { css } from "./helpers/cssInjector";
+// root reducer
+import { rootReducer, initialState, IAppState } from "./rootReducer";
+// routes
+import routes from "./routes";
 
 let history: History;
-if (IS_PROD) {
-  history = createMemoryHistory(); // HACK: You should get request path to sync it with redux store(maybe)
+if (EnvChecker.isServer()) {
+  history = createMemoryHistory();
 } else {
-  history = hashHistory;
+  if (EnvChecker.isDev()) {
+    history = hashHistory;
+  } else {
+    history = browserHistory;
+  }
 }
 
 const routerMid: Redux.Middleware = ReactRouterRedux.routerMiddleware(history);
 
 // Create store
+let AppInitialState: IAppState;
+if (!EnvChecker.isServer()) {
+  try {
+    const appInitialState: any = {};
+    const __INITIAL_STATE__ = (window as any).__INITIAL_STATE__;
+
+    for (let k in __INITIAL_STATE__) {
+      if (__INITIAL_STATE__.hasOwnProperty(k)) {
+        appInitialState[k] = Immutable.fromJS(__INITIAL_STATE__[k]);
+      }
+    }
+    AppInitialState = appInitialState as IAppState;
+
+  } catch (err) {
+    console.error(err);
+    console.warn("There is no initial state from server");
+    AppInitialState = initialState;
+  }
+}
+
 let store: any;
-if (IS_PROD) {
+if (EnvChecker.isServer() || !EnvChecker.isDev()) {
   store = createStore(
     rootReducer,
+    AppInitialState,
     // TODO: Add InitialState and Define State types to change 'any' type
-    applyMiddleware(routerMid, thunkMiddleware)
+    applyMiddleware(routerMid, thunkMiddleware),
   );
 } else {
   // Set logger middleware to convert from ImmutableJS to plainJS
@@ -57,23 +79,16 @@ if (IS_PROD) {
 
   store = createStore(
     rootReducer,
-    applyMiddleware(routerMid, thunkMiddleware, logger)
+    AppInitialState,
+    applyMiddleware(routerMid, thunkMiddleware, logger),
   );
 }
 
 // Create history with store
-let appHistory: ReactRouterRedux.ReactRouterReduxHistory;
-if (IS_PROD) {
-  appHistory = ReactRouterRedux.syncHistoryWithStore(
-    history,
-    store
-  );
-} else {
-  appHistory = ReactRouterRedux.syncHistoryWithStore(
-    hashHistory,
-    store
-  );
-}
+const appHistory = ReactRouterRedux.syncHistoryWithStore(
+  history,
+  store,
+);
 
 export const appStore = store;
 
@@ -84,11 +99,15 @@ export const appStore = store;
  **************************************/
 
 // This function is executed at Lambda.
-export async function serverSideRender(requestUrl: string, scriptPath: string) {
+export async function serverSideRender(
+  requestUrl: string,
+  scriptPath: string,
+) {
   // Note that requestUrl here should be the full URL path from
   // the original request, including the query string.
   let renderedHTML: string;
   let stringifiedInitialReduxState: string;
+
 
   await new Promise<string>((resolve, reject) => {
     match({ routes, location: requestUrl }, (error, redirectLocation, renderProps) => {
@@ -99,19 +118,19 @@ export async function serverSideRender(requestUrl: string, scriptPath: string) {
         resolve();
         // TODO: do redirect and give 302
       } else if (renderProps) {
-        // let { params } = renderProps;
-        // let { query } = renderProps.location;
         stringifiedInitialReduxState = JSON.stringify(store.getState());
-        // You can also check renderProps.components or renderProps.routes for
-        // your "not found" component or route respectively, and send a 404 as
-        // below, if you're using a catch-all route.
-        renderedHTML = ReactDOMServer.renderToString(
-          <CssInjector>
-            <Provider store={store}>
-              <RouterContext {...renderProps} />
-            </Provider>
-          </CssInjector>
-        );
+
+        try {
+          renderedHTML = ReactDOMServer.renderToString(
+            <CssInjector>
+              <Provider store={store}>
+                <RouterContext {...renderProps} />
+              </Provider>
+            </CssInjector>,
+          );
+        } catch (e) {
+          reject(e);
+        }
 
         resolve(renderedHTML);
       } else {
@@ -120,24 +139,33 @@ export async function serverSideRender(requestUrl: string, scriptPath: string) {
       }
     });
   });
-
+  const cssArr = Array.from(css);
   const fullHTML: string = staticHTMLWrapper(
     renderedHTML,
     scriptPath,
     stringifiedInitialReduxState,
-    [...css].join("")
+    cssArr.join(""),
   );
-  return Promise.resolve(fullHTML);
+  return fullHTML;
 }
 
-if (!IS_PROD) {
+if (!EnvChecker.isServer()) {
   ReactDom.render(
     <CssInjector>
       <Provider store={store}>
         <Router history={appHistory} children={routes} />
       </Provider>
-    </CssInjector>
-    ,
-    document.getElementById("isomorphic-lambda")
+    </CssInjector>,
+    document.getElementById("react-app"),
   );
+}
+
+if (process.env.SSR_TEST) {
+  serverSideRender("/", "scriptspajf")
+    .then((res: any) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }

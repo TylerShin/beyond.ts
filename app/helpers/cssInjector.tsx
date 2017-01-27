@@ -1,4 +1,6 @@
 import * as React from "react";
+import shallowCompare = require("react-addons-shallow-compare");
+import EnvChecker from "./envChecker";
 
 interface ICssInjectorContainerProps extends CssInjector {
 }
@@ -6,15 +8,18 @@ interface ICssInjectorContainerProps extends CssInjector {
 export const css = new Set(); // CSS for all rendered React components
 
 class CssInjector extends React.Component<ICssInjectorContainerProps, any> {
-  constructor(props: any, context: any) {
-    super(props, context);
+  public shouldComponentUpdate(nextProps: ICssInjectorContainerProps, nextState: any) {
+    return shallowCompare(this, nextProps, nextState);
   }
 
   public getChildContext() {
     return {
       insertCss(...styles: any[]) {
+        if (styles.length === 1 && Object.getOwnPropertyNames(styles[0]).length === 0) {
+          return [{}];
+        }
         styles.forEach((style) => {
-          if (typeof window === "undefined") {
+          if (EnvChecker.isServer()) {
             css.add(style._getCss());
           } else {
             style._insertCss();

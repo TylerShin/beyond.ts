@@ -1,18 +1,15 @@
-require('extract-text-webpack-plugin');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const BROWSER_BUNDLE_FILE_NAME = "bundleBrowser.js";
 
 module.exports = {
   entry: [
     'babel-polyfill',
-    'webpack/hot/dev-server',
     './app/index.tsx',
   ],
   output: {
-    filename: './dist/bundle.js',
+    filename: `./dist/${BROWSER_BUNDLE_FILE_NAME}`,
   },
-  devtool: 'source-map',
   resolve: {
     extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
     modulesDirectories: ['node_modules']
@@ -22,14 +19,11 @@ module.exports = {
       test: /\.json?$/,
       loader: 'json-loader'
     }, {
-      test: /\.tsx?$/,
-      loader: 'ts-loader?transpileOnly'
-    }, {
       test: /\.svg$/,
       loader: 'svg-inline?classPrefix',
     }, {
-      test: /\.html$/,
-      loader: 'raw'
+      test: /\.tsx?$/,
+      loader: 'ts-loader?transpileOnly'
     }, {
       test: /\.scss$/,
       loaders: [
@@ -51,19 +45,15 @@ module.exports = {
   externals: {
     'react/lib/ExecutionEnvironment': true,
     'react/lib/ReactContext': true,
-    'react/addons': true,
+    'react/addons': true
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development'),
+      'process.env.NODE_ENV': JSON.stringify('production')
     }),
-    new webpack.NoErrorsPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin,
     new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ko)$/),
     new webpack.ContextReplacementPlugin(/react-intl[\\\/]locale-data$/, /^\.\/(en|ko)$/),
-    new HtmlWebpackPlugin({
-      template: 'app/index.ejs',
-      inject: false,
-    }),
+    new webpack.NoErrorsPlugin(),
   ],
 };
