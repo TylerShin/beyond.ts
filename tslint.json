@@ -1,8 +1,12 @@
 {
   "extends": "tslint:recommended",
-  "rules": {
+  "rulesDirectory": ["node_modules/tslint-microsoft-contrib"],
+    "rules": {
     "jsdoc-format": false,
     "no-string-literal": false,
-    "no-var-requires": false
+    "object-literal-sort-keys": false,
+    "indent": ["spaces"],
+    "no-var-requires": false,
+    "ordered-imports": [false]
   }
 }

@@ -3,41 +3,56 @@ const autoprefixer = require('autoprefixer');
 
 module.exports = {
   entry: [
-    './src/index.tsx',
+    './app/index.tsx',
   ],
   output: {
-    path: __dirname + "/dist",  
-    filename: 'bundle.js',
+    filename: './dist/bundle.js',
   },
   target: 'node',
   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
+    extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
+    modulesDirectories: ['node_modules']
   },
   module: {
-    loaders: [
-      { test: /\.json?$/, loader: 'json-loader' },
-      { test: /\.tsx?$/, loader: 'ts-loader' },
-      {
-        test: /\.scss$/,
-        loaders: [
-          'isomorphic-style-loader',
-          'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:3]',
-          'sass-loader',
-          'postcss-loader'
-        ]
-      }
-    ]
+    loaders: [{
+      test: /\.json?$/,
+      loader: 'json-loader'
+    }, {
+      test: /\.tsx?$/,
+      loader: 'ts-loader?transpileOnly'
+    }, {
+      test: /\.svg$/,
+      loader: 'svg-inline?classPrefix',
+    }, {
+      test: /\.scss$/,
+      loaders: [
+        'isomorphic-style-loader',
+        'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:3]',
+        'sass-loader',
+        'postcss-loader'
+      ]
+    }]
   },
   postcss() {
     return {
       defaults: [autoprefixer],
-      cleaner: [autoprefixer({ browsers: [] })],
+      cleaner: [autoprefixer({
+        browsers: []
+      })],
     };
+  },
+  externals: {
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true,
+    'react/addons': true
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env.NODE_ENV': JSON.stringify('production')
     }),
+    new webpack.optimize.OccurrenceOrderPlugin,
+    new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ko)$/),
+    new webpack.ContextReplacementPlugin(/react-intl[\\\/]locale-data$/, /^\.\/(en|ko)$/),
     new webpack.NoErrorsPlugin(),
   ],
 };

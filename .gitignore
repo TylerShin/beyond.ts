@@ -1,8 +1,12 @@
+# Packages and temp files #
+######################
 node_modules
 dist
 dst
+tmp
+output
+coverage
 .serverless
-.vscode
 
 # Logs and databases #
 ######################
@@ -19,6 +23,10 @@ dst
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Editor Settings #
+.idea
+.vscode
 
 # Packages #
 ############
