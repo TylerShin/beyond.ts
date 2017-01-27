@@ -13,10 +13,9 @@ import { History } from "history";
 // helpers
 import { staticHTMLWrapper } from "./helpers/htmlWrapper";
 import EnvChecker from "./helpers/envChecker";
+import CssInjector, { css } from "./helpers/cssInjector";
 // root reducer
 import { rootReducer, initialState, IAppState } from "./rootReducer";
-// wrapper components
-import CssInjector, { css } from "./components/cssInjector";
 // routes
 import routes from "./routes";
 
@@ -60,7 +59,7 @@ if (EnvChecker.isServer() || !EnvChecker.isDev()) {
     rootReducer,
     AppInitialState,
     // TODO: Add InitialState and Define State types to change 'any' type
-    applyMiddleware(routerMid, thunkMiddleware)
+    applyMiddleware(routerMid, thunkMiddleware),
   );
 } else {
   // Set logger middleware to convert from ImmutableJS to plainJS
@@ -98,16 +97,6 @@ export const appStore = store;
  * ACTUAL RENDERING LOGIC
  * ************************************
  **************************************/
-
-
-// interface IServerSideRenderingResponse {
-//   statusCode: number;
-//   body: string;
-// }
-
-interface IServerSideRenderingOptions {
-  browserLocale: string;
-}
 
 // This function is executed at Lambda.
 export async function serverSideRender(
@@ -167,15 +156,12 @@ if (!EnvChecker.isServer()) {
         <Router history={appHistory} children={routes} />
       </Provider>
     </CssInjector>,
-    document.getElementById("vingle-web"),
+    document.getElementById("react-app"),
   );
 }
 
 if (process.env.SSR_TEST) {
-  const mockOptions: IServerSideRenderingOptions = {
-    browserLocale: "en-US",
-  };
-  serverSideRender("/posts/1642788", "scriptspajf", mockOptions)
+  serverSideRender("/", "scriptspajf")
     .then((res: any) => {
       console.log(res);
     })

@@ -12,7 +12,7 @@
     "dev": "webpack-dev-server --content-base app/ --hot --progress --colors --host 0.0.0.0",
     "lint": "tslint 'app/**/*.ts' -e 'app/**/*.d.ts' && sass-lint -c .sass-lint.yml --verbose",
     "unit-test": "rm -r output | jest --coverage",
-    "ssr-test": "npm run build-prod && SSR_TEST=true node dist/bundle.js | grep https://images.vingle.net/upload/t_ca_l/oooygshognzqruikth9j.jpg -q",
+    "ssr-test": "npm run build-prod && SSR_TEST=true node dist/bundle.js",
     "test": "npm run lint && npm run unit-test && npm run ssr-test"
   },
   "engines": {
