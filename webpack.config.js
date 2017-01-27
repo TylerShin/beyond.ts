@@ -1,7 +1,6 @@
 require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const DashboardPlugin = require('webpack-dashboard/plugin');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
@@ -10,7 +9,8 @@ module.exports = {
     './src/index.tsx',
   ],
   output: {
-    filename: './dist/bundle.js',
+    path: __dirname + "/dist",
+    filename: 'bundle.js',
   },
   devtool: 'source-map',
   resolve: {
@@ -47,7 +47,6 @@ module.exports = {
     }),
     new webpack.NoErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new DashboardPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.ejs',
       inject: false,

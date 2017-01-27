@@ -6,7 +6,8 @@ module.exports = {
     './src/index.tsx',
   ],
   output: {
-    filename: './dist/bundle.js',
+    path: __dirname + "/dist",  
+    filename: 'bundle.js',
   },
   target: 'node',
   resolve: {
@@ -15,12 +16,13 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.json?$/, loader: 'json-loader' },
-      { test: /\.tsx?$/, loader: 'babel?presets[]=stage-0,presets[]=es2015,plugins=transform-runtime!ts' },
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       {
         test: /\.scss$/,
         loaders: [
           'isomorphic-style-loader',
           'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:3]',
+          'sass-loader',
           'postcss-loader'
         ]
       }

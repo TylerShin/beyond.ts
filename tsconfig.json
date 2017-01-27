@@ -10,7 +10,8 @@
     "experimentalDecorators": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "scripts/handlers/**/*"
   ],
   "exclude": [
     "node_modules",

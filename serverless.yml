@@ -11,14 +11,14 @@
 #
 # Happy Coding!
 
-service: react-isomorphic-serverless-typescript # NOTE: update this with your service name
+service: serverless-template # NOTE: update this with your service name
 
 provider:
   name: aws
   runtime: nodejs4.3
 
 # you can overwrite defaults here
-  stage: dev # Override this with command-line option when you deploy to production
+  stage: dev # NOTE: you can override this option when you deploy to production with NPM script(CLI)
   region: us-east-1
 
 # you can add statements to the Lambda function's IAM Role here
@@ -38,23 +38,18 @@ provider:
 
 # you can add packaging information here
 package:
-  include: ./dist/bundle.js
-#  exclude:
-#    - exclude-me.js
-#  artifact: my-service-code.zip
+  artifact: dist.zip
 
 functions:
   ssr:
-    handler: handler.SSR
+    handler: handlers.ssr
     events:
       - http:
           method: get
           path: ${self:service}
-          # response:
-          #   headers:
-          #     Content-Type: "'text/html'"
-          # template: $input.path('$')
-
+      - http:
+          method: any
+          path: ${self:service}/{proxy+}
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

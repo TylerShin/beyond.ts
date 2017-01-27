@@ -4,7 +4,7 @@
   "description": "ReactJS doing isomorphic rendering without server by using serverless framework(AWS Lambda)",
   "main": "handler.js",
   "scripts": {
-    "dev": "webpack-dashboard -- webpack-dev-server --content-base src/ --hot --host 0.0.0.0",
+    "dev": "webpack --content-base src/ --hot --host 0.0.0.0",
     "build-prod": "rm -rf dist && webpack --content-base src/ --config webpack.prod.config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy-serverless-to-stage": "serverless deploy -v",
@@ -52,7 +52,6 @@
     "tslint": "^3.15.1",
     "typescript": "2.0.8",
     "webpack": "1.13.2",
-    "webpack-dashboard": "0.2.0",
     "webpack-dev-server": "1.16.2"
   },
   "dependencies": {
