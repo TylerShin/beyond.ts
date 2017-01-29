@@ -7,7 +7,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "module": "commonjs",
-    "target": "es5",
+    "target": "es6",
     "jsx": "react",
     "lib": [
       "es6",
@@ -15,8 +15,7 @@
       "dom"
     ],
     "removeComments": true,
-    "experimentalDecorators": true,
-    "allowJs": true
+    "experimentalDecorators": true
   },
   "include": [
     "app/**/*",

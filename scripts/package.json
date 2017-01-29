@@ -1,0 +1,23 @@
+{
+  "name": "react-isomorphic-serverless-typescript-serverless-part",
+  "version": "1.0.0",
+  "description": "serverless control part",
+  "main": "index.js",
+  "engines": {
+    "node": "6.5.0"
+  },
+  "author": "Tylor Shin",
+  "license": "ISC",
+  "dependencies": {
+    "@types/axios": "^0.9.32",
+    "@types/aws-sdk": "^0.0.38",
+    "@types/fs-extra": "^0.0.33",
+    "@types/node": "^6.0.62",
+    "axios": "^0.15.2",
+    "aws-sdk": "^2.6.10",
+    "fs-extra": "^0.30.0",
+    "s3": "^4.4.0",
+    "ts-node": "^1.6.0",
+    "typescript": "^2.1.4"
+  }
+}

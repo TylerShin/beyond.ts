@@ -6,6 +6,8 @@ module.exports = {
     './app/index.tsx',
   ],
   output: {
+    libraryTarget: "commonjs",
+    library: "ssr",
     filename: './dist/bundle.js',
   },
   target: 'node',
@@ -51,8 +53,6 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
     new webpack.optimize.OccurrenceOrderPlugin,
-    new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ko)$/),
-    new webpack.ContextReplacementPlugin(/react-intl[\\\/]locale-data$/, /^\.\/(en|ko)$/),
     new webpack.NoErrorsPlugin(),
   ],
 };

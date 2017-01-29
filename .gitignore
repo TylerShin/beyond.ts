@@ -4,6 +4,7 @@ node_modules
 dist
 dst
 tmp
+temp
 output
 coverage
 .serverless

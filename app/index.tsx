@@ -5,6 +5,8 @@ import * as ReactDOMServer from "react-dom/server";
 import { applyMiddleware, createStore } from "redux";
 import { RouterContext, match, Router, createMemoryHistory, browserHistory, hashHistory } from "react-router";
 import { Provider } from "react-redux";
+// interfaces
+import * as LambdaProxy from "./typings/lambda";
 // redux middlewares
 import * as ReactRouterRedux from "react-router-redux";
 import thunkMiddleware from "redux-thunk";
@@ -18,6 +20,9 @@ import CssInjector, { css } from "./helpers/cssInjector";
 import { rootReducer, initialState, IAppState } from "./rootReducer";
 // routes
 import routes from "./routes";
+// deploy files
+const fs = require("fs");
+import * as DeployConfig from "../scripts/builds/config";
 
 let history: History;
 if (EnvChecker.isServer()) {
@@ -99,7 +104,7 @@ export const appStore = store;
  **************************************/
 
 // This function is executed at Lambda.
-export async function serverSideRender(
+async function serverSideRender(
   requestUrl: string,
   scriptPath: string,
 ) {
@@ -107,7 +112,6 @@ export async function serverSideRender(
   // the original request, including the query string.
   let renderedHTML: string;
   let stringifiedInitialReduxState: string;
-
 
   await new Promise<string>((resolve, reject) => {
     match({ routes, location: requestUrl }, (error, redirectLocation, renderProps) => {
@@ -161,7 +165,7 @@ if (!EnvChecker.isServer()) {
 }
 
 if (process.env.SSR_TEST) {
-  serverSideRender("/", "scriptspajf")
+  serverSideRender("/", "mockedScriptPath")
     .then((res: any) => {
       console.log(res);
     })
@@ -169,3 +173,30 @@ if (process.env.SSR_TEST) {
       console.log(err);
     });
 }
+
+export async function handler(event: LambdaProxy.Event): Promise<LambdaProxy.Response> {
+  if (EnvChecker.isServer()) {
+    // const originalHost = event.headers["original-host"] as string;
+    // const userAgent = event.headers["User-Agent"];
+    const originalUri = event.headers["original-uri"];
+    const version = fs.readFileSync("./version");
+
+    try {
+      const bundledJsForBrowserPath
+        = `https://s3.amazonaws.com/${DeployConfig.AWS_S3_BUCKET}/${DeployConfig.AWS_S3_FOLDER_PREFIX}/${version}/bundleBrowser.js`;
+      console.log(bundledJsForBrowserPath);
+      const response = await serverSideRender(originalUri, bundledJsForBrowserPath); // NOTE: Should change this address
+
+      return {
+        statusCode: 200,
+        headers: {
+          "Content-Type": "text/html",
+        },
+        body: response,
+      };
+    } catch (e) {
+      console.error(e);
+      console.error(e.meesage);
+    }
+  }
+};

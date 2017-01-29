@@ -1,0 +1,32 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: serverless-unviversal-app # NOTE: update this with your service name
+
+provider:
+  name: aws
+  runtime: nodejs4.3
+  stage: stage # NOTE: Override this option at package.json with CLI-command
+  region: us-east-1
+
+# you can add packaging information here
+package:
+  artifact: dist.zip
+
+functions:
+  ssr:
+    handler: handler.ssr
+    events:
+      - http:
+          method: get
+          path: ${self:service}

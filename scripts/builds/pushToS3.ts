@@ -2,7 +2,7 @@ import * as DeployConfig from './config';
 const s3 = require('s3');
 
 export default function pushToS3(NEW_TAG: string, isProd?: boolean) {
-  console.log('Start to upload dist files to S3');
+  console.log('Start to upload bundled javascript files to S3');
 
   const s3Client = s3.createClient(DeployConfig.S3_CLIENT_OPTIONS);
 
@@ -14,7 +14,7 @@ export default function pushToS3(NEW_TAG: string, isProd?: boolean) {
         localFile: DeployConfig.VERSION_FILE_PATH,
         s3Params: {
           Bucket: DeployConfig.AWS_S3_BUCKET,
-          Key: `${DeployConfig.APP_DEST}/${DeployConfig.VERSION_FILE_NAME}`,
+          Key: `${DeployConfig.AWS_S3_FOLDER_PREFIX}/${DeployConfig.VERSION_FILE_NAME}`,
           CacheControl: 'public, max-age=604800',
         },
       });
@@ -23,7 +23,7 @@ export default function pushToS3(NEW_TAG: string, isProd?: boolean) {
         localDir: DeployConfig.APP_DEST,
         s3Params: {
           Bucket: DeployConfig.AWS_S3_BUCKET,
-          Prefix: `${DeployConfig.APP_DEST}/${NEW_TAG}`,
+          Prefix: `${DeployConfig.AWS_S3_FOLDER_PREFIX}/${NEW_TAG}`,
           CacheControl: 'public, max-age=604800',
         },
       });
