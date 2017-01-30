@@ -8,7 +8,7 @@
     "clean": "rm -rf dist && rm -rf temp && rm -f dist.zip",
     "build": "npm run clean && webpack --content-base app/ --config webpack.prod.config.js && npm run build-browser",
     "build-browser": "webpack --content-base app/ --config webpack.browser.config.js",
-    "deploy-to-stage": "npm run build && ts-node scripts/deployToStage.ts && cp temp/version dist && cp ./handler.js dist && npm run pack && serverless deploy --stage stage",
+    "deploy-to-stage": "npm run build && ts-node scripts/deployToStage.ts && cp temp/version dist && cp scripts/handler.js dist && npm run pack && serverless deploy --stage stage",
     "deploy-to-production": "ts-node scripts/deploy-to-prod.ts",
     "dev": "webpack-dev-server --content-base app/ --hot --progress --colors --host 0.0.0.0",
     "lint": "tslint 'app/**/*.ts' -e 'app/**/*.d.ts' && sass-lint -c .sass-lint.yml --verbose",

@@ -102,23 +102,17 @@ export const appStore = store;
  * ACTUAL RENDERING LOGIC
  * ************************************
  **************************************/
-
-// This function is executed at Lambda.
-async function serverSideRender(
-  requestUrl: string,
-  scriptPath: string,
-) {
-  // Note that requestUrl here should be the full URL path from
-  // the original request, including the query string.
+async function serverSideRender(requestUrl: string, scriptPath: string) {
   let renderedHTML: string;
   let stringifiedInitialReduxState: string;
 
   await new Promise<string>((resolve, reject) => {
     match({ routes, location: requestUrl }, (error, redirectLocation, renderProps) => {
       if (error) {
+        console.log(error);
         reject(error);
-        // TODO: give 500 page
       } else if (redirectLocation) {
+        console.log("redirect occured!");
         resolve();
         // TODO: do redirect and give 302
       } else if (renderProps) {
@@ -132,19 +126,20 @@ async function serverSideRender(
               </Provider>
             </CssInjector>,
           );
+          console.log(renderedHTML);
         } catch (e) {
+          console.log(e);
           reject(e);
         }
-
         resolve(renderedHTML);
       } else {
+        console.log("404 Error");
         reject(new Error("404x"));
-        // TODO: give 404 page
       }
     });
   });
   const cssArr = Array.from(css);
-  const fullHTML: string = staticHTMLWrapper(
+  const fullHTML: string = await staticHTMLWrapper(
     renderedHTML,
     scriptPath,
     stringifiedInitialReduxState,
@@ -176,16 +171,24 @@ if (process.env.SSR_TEST) {
 
 export async function handler(event: LambdaProxy.Event): Promise<LambdaProxy.Response> {
   if (EnvChecker.isServer()) {
-    // const originalHost = event.headers["original-host"] as string;
     // const userAgent = event.headers["User-Agent"];
-    const originalUri = event.headers["original-uri"];
+    const LAMBDA_SERVICE_NAME = "serverless-unviversal-app";
+    const path = event.path;
     const version = fs.readFileSync("./version");
 
+    let requestPath: string;
+    if (path === `/${LAMBDA_SERVICE_NAME}`) {
+      requestPath = "/";
+    } else {
+      requestPath = path.replace(`/${LAMBDA_SERVICE_NAME}`, "");
+    }
+
+    console.log(requestPath, "requestPath");
     try {
       const bundledJsForBrowserPath
         = `https://s3.amazonaws.com/${DeployConfig.AWS_S3_BUCKET}/${DeployConfig.AWS_S3_FOLDER_PREFIX}/${version}/bundleBrowser.js`;
       console.log(bundledJsForBrowserPath);
-      const response = await serverSideRender(originalUri, bundledJsForBrowserPath); // NOTE: Should change this address
+      const response = await serverSideRender(requestPath, bundledJsForBrowserPath); // NOTE: Should change this address
 
       return {
         statusCode: 200,

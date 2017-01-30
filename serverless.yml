@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: serverless-unviversal-app # NOTE: update this with your service name
+service: ${file(./config.yml):service_name} # NOTE: update this with your service name
 
 provider:
   name: aws
