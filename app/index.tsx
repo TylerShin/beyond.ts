@@ -112,7 +112,6 @@ async function serverSideRender(requestUrl: string, scriptPath: string) {
         console.log(error);
         reject(error);
       } else if (redirectLocation) {
-        console.log("redirect occured!");
         resolve();
         // TODO: do redirect and give 302
       } else if (renderProps) {
@@ -126,7 +125,6 @@ async function serverSideRender(requestUrl: string, scriptPath: string) {
               </Provider>
             </CssInjector>,
           );
-          console.log(renderedHTML);
         } catch (e) {
           console.log(e);
           reject(e);
@@ -169,9 +167,8 @@ if (process.env.SSR_TEST) {
     });
 }
 
-export async function handler(event: LambdaProxy.Event): Promise<LambdaProxy.Response> {
+export async function handler(event: LambdaProxy.Event, context: LambdaProxy.Context): Promise<LambdaProxy.Response> {
   if (EnvChecker.isServer()) {
-    // const userAgent = event.headers["User-Agent"];
     const LAMBDA_SERVICE_NAME = "serverless-unviversal-app";
     const path = event.path;
     const version = fs.readFileSync("./version");
@@ -183,20 +180,20 @@ export async function handler(event: LambdaProxy.Event): Promise<LambdaProxy.Res
       requestPath = path.replace(`/${LAMBDA_SERVICE_NAME}`, "");
     }
 
-    console.log(requestPath, "requestPath");
     try {
       const bundledJsForBrowserPath
         = `https://s3.amazonaws.com/${DeployConfig.AWS_S3_BUCKET}/${DeployConfig.AWS_S3_FOLDER_PREFIX}/${version}/bundleBrowser.js`;
-      console.log(bundledJsForBrowserPath);
       const response = await serverSideRender(requestPath, bundledJsForBrowserPath); // NOTE: Should change this address
 
-      return {
+      console.log(response);
+      context.succeed({
         statusCode: 200,
         headers: {
           "Content-Type": "text/html",
+          "Access-Control-Allow-Origin": "*",
         },
         body: response,
-      };
+      });
     } catch (e) {
       console.error(e);
       console.error(e.meesage);
