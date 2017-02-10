@@ -55,13 +55,14 @@
     "ts-node": "^1.6.0",
     "tslint": "^4.0.2",
     "tslint-microsoft-contrib": "^2.0.13",
-    "typescript": "^2.1.4",
+    "typescript": "^2.1.5",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
     "@types/axios": "^0.9.32",
     "@types/immutable": "^3.8.4",
+    "@types/node": "^6.0.62",
     "@types/react": "^0.14.41",
     "@types/react-addons-css-transition-group": "^0.14.17",
     "@types/react-addons-shallow-compare": "^0.14.17",

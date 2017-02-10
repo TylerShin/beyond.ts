@@ -42,6 +42,9 @@ module.exports = {
       })],
     };
   },
+  node: {
+    fs: "empty"
+  },
   externals: {
     'react/lib/ExecutionEnvironment': true,
     'react/lib/ReactContext': true,
