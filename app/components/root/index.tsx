@@ -1,5 +1,7 @@
 import * as React from "react";
-import shallowCompare = require("react-addons-shallow-compare");
+// components
+import NavbarComponent from "../navbar";
+// styles
 import { withStyles } from "../../helpers/withStylesHelper";
 
 const styles = require("./root.scss");
@@ -8,15 +10,12 @@ interface IRootComponentProps {
 }
 
 @withStyles<typeof RootComponent>(styles)
-export default class RootComponent extends React.Component<IRootComponentProps, {}> {
-  public shouldComponentUpdate(nextProps: IRootComponentProps, nextState: null) {
-    return shallowCompare(this, nextProps, nextState);
-  }
-
+export default class RootComponent extends React.PureComponent<IRootComponentProps, {}> {
   public render() {
     return (
       <div>
-        {this.props.children}      
+        <NavbarComponent />
+        {this.props.children}
       </div>
     );
   }
