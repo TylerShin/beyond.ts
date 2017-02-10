@@ -1,4 +1,4 @@
-# React-isomorphic-serverless-typescript
+# react-universal-in-serverless
 
 This project is the starter kit fot the who wants to use ReactJS isomorphic-rendering with AWS Lambda.
 
@@ -12,10 +12,9 @@ I used serveral libraries to make these posiible.
 
  **Packages**
 - **TypeScript** - basic language
-- **ReactJS** - front-end framework and make isomorphic-rendering
+- **ReactJS** - front-end framework
 - **Redux** - App state manager
-- **Serverless** - managing AWS Lambda, API Gateway, etc...
-- **Yarn** - package mangaer(optional)
+- **Serverless** - managing AWS Lambda, API Gateway, and the others within cloud-formation
 
 # How to install
 ```
@@ -23,17 +22,45 @@ git clone https://github.com/TylorShin/react-isomorphic-serverless-typescript.gi
 cd react-isomorphic-serverless-typescript
 npm install
 ```
-*(yarn is also possible)*
 
-# How to use
+### How to use
 **Running dev server**
 ```
 npm run dev
 ```
 
-**Build production script**
+### Build production script
+**Before Deploying**
+You should set AWS IAM Role and account setting.
+visit below guide and precede AWS settings before run deploying script
+
+[Serverless AWS account setting guide](https://serverless.com/framework/docs/providers/aws/guide/credentials/)
+
+*at staging server*
 ```
-npm run build-prod
+npm run deploy-to-stage
+```
+
+*at production server*
+```
+WIP
+```
+
+### Logs in Terminal
+```
+npm i -g serverless
+serverless logs -f [function name] -s [stage name]
+```
+
+```
+ex) serverless logs -f ssr -s stage
+```
+
+If you want to watch logs in watch mode(continuously),
+just run with -t option
+
+```
+serverless logs -f [function name] -s [stage name] -t
 ```
 
 # deploy process
@@ -44,15 +71,6 @@ npm run build-prod
 5. Install all packages in dist folder and zip them with bundled JS.
 6. Deploy Lambda and relevant packages by using serverless
 
-**Deploy to lambda staging server**
-```
-WIP
-```
-
-**Deploy to lambda production server**
-```
-WIP
-```
 
 # Todos
 - **Adding TEST**
