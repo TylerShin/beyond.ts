@@ -18,8 +18,8 @@ I used serveral libraries to make these posiible.
 
 # How to install
 ```
-git clone https://github.com/TylorShin/react-isomorphic-serverless-typescript.git
-cd react-isomorphic-serverless-typescript
+git clone https://github.com/TylorShin/react-universal-in-serverless.git
+cd react-universal-in-serverless
 npm install
 ```
 
