@@ -1,0 +1,10 @@
+.navbarWrapper {
+  list-style: none;
+  display: flex;
+
+  li {
+    flex-grow: 1;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
