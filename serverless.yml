@@ -30,3 +30,6 @@ functions:
       - http:
           method: get
           path: ${self:service}
+
+resources:
+  Resources: ${file(cloudformation.json)}

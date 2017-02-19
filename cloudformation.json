@@ -1,0 +1,54 @@
+{
+  "CloudFrontDistribution": {
+    "Type": "AWS::CloudFront::Distribution",
+    "Properties": {
+      "DistributionConfig": {
+        "DefaultRootObject": "",
+        "Enabled": true,
+        "DefaultCacheBehavior": {
+          "AllowedMethods": [
+            "DELETE",
+            "GET",
+            "HEAD",
+            "OPTIONS",
+            "PATCH",
+            "POST",
+            "PUT"
+          ],
+          "CachedMethods": [
+            "HEAD",
+            "GET"
+          ],
+          "ForwardedValues": {
+            "QueryString": true
+          },
+          "MinTTL": "0",
+          "TargetOriginId": "ssr-${opt:stage}-api-gateway",
+          "ViewerProtocolPolicy": "allow-all"
+        },
+        "Origins": [
+          {
+            "CustomOriginConfig": {
+              "HTTPSPort": "443",
+              "OriginProtocolPolicy": "https-only"
+            },
+            "DomainName": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  ".execute-api.us-east-1.amazonaws.com"
+                ]
+              ]
+            },
+            "Id": "ssr-${opt:stage}-api-gateway",
+            "OriginPath": "/${opt:stage}/${file(./config.yml):service_name}"
+          }
+        ],
+        "PriceClass": "PriceClass_100"
+      }
+    }
+  }
+}

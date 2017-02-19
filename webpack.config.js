@@ -61,9 +61,8 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
     new webpack.NoErrorsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin,
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en|ko)$/),
-    new webpack.ContextReplacementPlugin(/react-intl[\\\/]locale-data$/, /^\.\/(en|ko)$/),
     new HtmlWebpackPlugin({
       template: 'app/index.ejs',
       inject: false,
