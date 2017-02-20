@@ -30,6 +30,9 @@ functions:
       - http:
           method: get
           path: ${self:service}
+      - http:
+          method: any
+          path: "${self:service}/{proxy+}"
 
 resources:
   Resources: ${file(cloudformation.json)}
