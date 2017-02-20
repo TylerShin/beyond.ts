@@ -22,6 +22,8 @@
           "ForwardedValues": {
             "QueryString": true
           },
+          "DefaultTTL": 300,
+          "MaxTTL": 300,
           "MinTTL": "0",
           "TargetOriginId": "ssr-${opt:stage}-api-gateway",
           "ViewerProtocolPolicy": "allow-all"
