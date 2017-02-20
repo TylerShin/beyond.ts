@@ -20,11 +20,12 @@
             "GET"
           ],
           "ForwardedValues": {
-            "QueryString": true
+            "QueryString": true,
+            "Headers": ["*"],
           },
+          "MinTTL": "0",
           "DefaultTTL": 300,
           "MaxTTL": 300,
-          "MinTTL": "0",
           "TargetOriginId": "ssr-${opt:stage}-api-gateway",
           "ViewerProtocolPolicy": "allow-all"
         },
