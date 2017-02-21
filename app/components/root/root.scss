@@ -3,3 +3,8 @@
 * {
   box-sizing: border-box;
 }
+
+:global .container {
+  width: 1024px;
+  margin: 0 auto;
+}

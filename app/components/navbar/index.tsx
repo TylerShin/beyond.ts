@@ -12,12 +12,11 @@ export default class NavbarComponent extends React.PureComponent<INavbarComponen
     return (
       <ul className={styles.navbarWrapper}>
         <li><Link to="/">HOME</Link></li>
-        <li>Sync Example</li>
+        <li><Link to="/docs">Documentation</Link></li>
         <li>
           <Link to="/users/tylorshin">Ashyc Example</Link>
         </li>
-        <li>Meta tags</li>
-        <li>Contact</li>
+        <li><a href="mailto:shincode@icloud.com">Contact</a></li>
       </ul>
     );
   }

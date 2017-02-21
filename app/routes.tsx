@@ -5,6 +5,7 @@ import { IndexRoute, Route } from "react-router";
 import RootComponent from "./components/root";
 import HomeComponent from "./components/home";
 import GithubUserContainer from "./components/user";
+import DocumentationComponent from "./components/documentation";
 // actions
 import { getUserInfo } from "./components/user/actions";
 // store
@@ -25,6 +26,7 @@ const routeMap = ([
         }
       }}
     />
+    <Route path="docs" component={DocumentationComponent} />
     <IndexRoute component={HomeComponent} />
   </Route>,
 ]);

@@ -45,6 +45,7 @@ class GithubUserContainer extends React.PureComponent<IGithubUserContainerProps,
         <Helmet
           title={`Github User - ${username}`}
         />
+        <h1>Who made this project?</h1>
         <h2>{username}</h2>
         <img src={githubUserState.getIn(["data", "user", "avatar_url"])} />
         <div>{githubUserState.getIn(["data", "user", "bio"])}</div>
