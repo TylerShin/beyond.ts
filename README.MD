@@ -1,6 +1,6 @@
 # react-universal-in-serverless
 
-This project is the starter kit fot the who wants to use ReactJS isomorphic-rendering with AWS Lambda.
+This project is the starter kit for the who wants to use ReactJS isomorphic-rendering with AWS Lambda.
 
 **PLEASE! contribute this project with me!**
 
@@ -8,13 +8,30 @@ If you want to contribute this package, please feel free to making PR.
 I have the full time job now, so I don't have very much time now T_T
 
 
-I used serveral libraries to make these posiible.
+I used several libraries to make these possible.
 
  **Packages**
 - **TypeScript** - basic language
 - **ReactJS** - front-end framework
 - **Redux** - App state manager
 - **Serverless** - managing AWS Lambda, API Gateway, and the others within cloud-formation
+
+# Before Start
+* This isn't free to start. Because it uses AWS's several services(Lambda, API Gateway, S3, CloudFront, CloudFormation, (Route53))*
+
+1. Set AWS Credential
+You should set AWS IAM Role and account setting.  
+visit below guide and precede AWS settings before run deploying script  
+[Serverless AWS account setting guide](https://serverless.com/framework/docs/providers/aws/guide/credentials/)
+
+2. Make S3 Bucket to upload your bundled S3
+```
+Make S3 Bucket
+(If you can connect this with CDN like the Cloudfront, the script loading speed will be better. But in this case you should change some code in deploy logic and normal logic too.)
+```
+
+```Set S3 Bucket information in <root_directory>/scripts/builds/config.ts```
+
 
 # How to install
 ```
@@ -30,11 +47,6 @@ npm run dev
 ```
 
 ### Build production script
-**Before Deploying**
-You should set AWS IAM Role and account setting.
-visit below guide and precede AWS settings before run deploying script
-
-[Serverless AWS account setting guide](https://serverless.com/framework/docs/providers/aws/guide/credentials/)
 
 *at staging server*
 ```
