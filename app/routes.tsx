@@ -6,6 +6,7 @@ import RootComponent from "./components/root";
 import HomeComponent from "./components/home";
 import GithubUserContainer from "./components/user";
 import DocumentationComponent from "./components/documentation";
+import IntroDocumentationComponent from "./components/documentation/intro";
 // actions
 import { getUserInfo } from "./components/user/actions";
 // store
@@ -26,7 +27,9 @@ const routeMap = ([
         }
       }}
     />
-    <Route path="docs" component={DocumentationComponent} />
+    <Route path="docs" component={DocumentationComponent}>
+      <IndexRoute component={IntroDocumentationComponent} />
+    </Route>
     <IndexRoute component={HomeComponent} />
   </Route>,
 ]);

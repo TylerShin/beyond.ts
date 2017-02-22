@@ -1,5 +1,30 @@
+.documentContainerWrapper {
+  margin-top: 50px;
+}
+
+.contentWrapper {
+  display: flex;
+}
+
+.leftContainer {
+  width: 300px;
+}
+
 .navigationWrapper {
   list-style: none;
   margin: 0;
   padding: 0;
+
+  li {
+    height: 36px;
+    line-height: 36px;
+    border-left: 1px solid #efefef;
+    padding-left: 30px;
+    font-size: 18px;
+    cursor: pointer;
+
+    &:hover {
+      border-left: 1px solid #999;
+    }
+  }
 }
