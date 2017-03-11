@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router";
 // styles
 import { withStyles } from "../../helpers/withStylesHelper";
 
@@ -15,8 +16,8 @@ export default class DocumentationComponent extends React.PureComponent<IDocumen
         <div className={`container ${styles.contentWrapper}`}>
           <div className={styles.leftContainer}>
             <ul className={styles.navigationWrapper}>
-              <li>Why Serverless?</li>
-              <li>Before Start</li>
+              <li><Link to="/docs">Why Serverless?</Link></li>
+              <li><Link to="/docs/beforestart">Before Start</Link></li>
               <li>Installation</li>
               <li>Basic Settings</li>
               <li>Advanced Settings</li>

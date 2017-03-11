@@ -6,7 +6,8 @@ import RootComponent from "./components/root";
 import HomeComponent from "./components/home";
 import GithubUserContainer from "./components/user";
 import DocumentationComponent from "./components/documentation";
-import IntroDocumentationComponent from "./components/documentation/intro";
+import IntroDocumentationComponent from "./components/documentation/intro"; // TODO: Make document components as one component by using HOC pattern
+import BeforeStartDocumentationComponent from "./components/documentation/beforeStart";
 // actions
 import { getUserInfo } from "./components/user/actions";
 // store
@@ -15,7 +16,7 @@ import { appStore } from "./";
 const routeMap = ([
   <Route path="/" component={RootComponent}>
     <Route
-      path="/users/:username"
+      path="users/:username"
       getComponent={async (nextState: Router.RouterState, callback: Function) => {
         const newUsername = nextState.params["username"];
         try {
@@ -28,6 +29,7 @@ const routeMap = ([
       }}
     />
     <Route path="docs" component={DocumentationComponent}>
+      <Route path="beforestart" component={BeforeStartDocumentationComponent} />
       <IndexRoute component={IntroDocumentationComponent} />
     </Route>
     <IndexRoute component={HomeComponent} />

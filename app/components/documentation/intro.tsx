@@ -1,7 +1,7 @@
 import * as React from "react";
 // styles
 import { withStyles } from "../../helpers/withStylesHelper";
-const styles = require("./intro.scss");
+const styles = require("./documentation.scss");
 
 interface IIntroDocumentationComponentProps {}
 

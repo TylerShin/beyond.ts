@@ -22,6 +22,9 @@ module.exports = {
       test: /\.svg$/,
       loader: 'svg-inline?classPrefix',
     }, {
+      test: /\.md?$/,
+      loaders: ["html-loader", "markdown-loader"]
+    }, {
       test: /\.tsx?$/,
       loader: 'ts-loader?transpileOnly'
     }, {
