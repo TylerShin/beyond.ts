@@ -6,7 +6,7 @@ import RootComponent from "./components/root";
 import HomeComponent from "./components/home";
 import GithubUserContainer from "./components/user";
 import DocumentationComponent from "./components/documentation";
-import IntroDocumentationComponent from "./components/documentation/intro"; // TODO: Make document components as one component by using HOC pattern
+import IntroDocumentationComponent from "./components/documentation/intro";
 import BeforeStartDocumentationComponent from "./components/documentation/beforeStart";
 // actions
 import { getUserInfo } from "./components/user/actions";
