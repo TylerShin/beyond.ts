@@ -18,9 +18,9 @@ export default class DocumentationComponent extends React.PureComponent<IDocumen
             <ul className={styles.navigationWrapper}>
               <li><Link to="/docs">Why Serverless?</Link></li>
               <li><Link to="/docs/beforestart">Before Start</Link></li>
-              <li>Installation</li>
+              <li><Link to="/docs/installation">Installation</Link></li>
               <li>Basic Settings</li>
-              <li>Advanced Settings</li>
+              <li><Link to="/docs/advancedsettings">Advanced Settings</Link></li>
             </ul>
           </div>
           <div className={styles.rightContainer}>

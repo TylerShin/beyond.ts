@@ -4,10 +4,14 @@
 
 .contentWrapper {
   display: flex;
+
+  img {
+    width: 500px;
+  }
 }
 
 .leftContainer {
-  width: 300px;
+  min-width: 300px;
 }
 
 .navigationWrapper {
