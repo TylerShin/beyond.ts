@@ -1,6 +1,7 @@
 # react-universal-in-serverless
 
 This project is the starter kit for the who wants to use ReactJS isomorphic-rendering with AWS Lambda.
+The [Demo & Docs](https://d3ujodob71n39b.cloudfront.net) is now available!
 
 **PLEASE! contribute this project with me!**
 
@@ -20,8 +21,8 @@ I used several libraries to make these possible.
 * This isn't free to start. Because it uses AWS's several services(Lambda, API Gateway, S3, CloudFront, CloudFormation, (Route53))*
 
 1. Set AWS Credential
-You should set AWS IAM Role and account setting.  
-visit below guide and precede AWS settings before run deploying script  
+You should set AWS IAM Role and account setting.
+visit below guide and precede AWS settings before run deploying script
 [Serverless AWS account setting guide](https://serverless.com/framework/docs/providers/aws/guide/credentials/)
 
 2. Make S3 Bucket to upload your bundled S3
@@ -50,15 +51,15 @@ npm run dev
 
 *at staging server*
 ```
-npm run deploy-to-stage
+npm run deploy:stage
 ```
 
 *at production server*
 ```
-WIP
+npm run deploy:prod
 ```
 
-### Logs in Terminal
+### Logs in Terminal (please read serverless official docs)
 ```
 npm i -g serverless
 serverless logs -f [function name] -s [stage name]
@@ -88,5 +89,3 @@ serverless logs -f [function name] -s [stage name] -t
 - **Adding TEST**
 - **Minimizing node_modules size**
 - **Handling independent CSS with precompiler like sass**
-- **Apply ImmutbaleJS**
-- GraphQL?
