@@ -1,21 +1,19 @@
 # react-universal-in-serverless
 
 This project is the starter kit for the who wants to use ReactJS isomorphic-rendering with AWS Lambda.
+
 The [Demo & Docs](https://d3ujodob71n39b.cloudfront.net) is now available!
 
-**PLEASE! contribute this project with me!**
+**PLEASE! contribute this project!**
 
-If you want to contribute this package, please feel free to making PR.
-I have the full time job now, so I don't have very much time now T_T
-
-
-I used several libraries to make these possible.
 
  **Packages**
 - **TypeScript** - basic language
 - **ReactJS** - front-end framework
 - **Redux** - App state manager
 - **Serverless** - managing AWS Lambda, API Gateway, and the others within cloud-formation
+
+
 
 # Before Start
 * This isn't free to start. Because it uses AWS's several services(Lambda, API Gateway, S3, CloudFront, CloudFormation, (Route53))*
