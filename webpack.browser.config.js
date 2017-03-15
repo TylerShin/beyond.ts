@@ -11,39 +11,61 @@ module.exports = {
     filename: `./dist/${BROWSER_BUNDLE_FILE_NAME}`,
   },
   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
-    modulesDirectories: ['node_modules']
+    extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
   },
   module: {
-    loaders: [{
-      test: /\.json?$/,
-      loader: 'json-loader'
-    }, {
-      test: /\.svg$/,
-      loader: 'svg-inline?classPrefix',
-    }, {
-      test: /\.md?$/,
-      loaders: ["html-loader", "markdown-loader"]
-    }, {
-      test: /\.tsx?$/,
-      loader: 'ts-loader?transpileOnly'
-    }, {
-      test: /\.scss$/,
-      loaders: [
-        'isomorphic-style-loader',
-        'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:3]',
-        'sass-loader',
-        'postcss-loader'
-      ]
-    }]
-  },
-  postcss() {
-    return {
-      defaults: [autoprefixer],
-      cleaner: [autoprefixer({
-        browsers: []
-      })],
-    };
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader",
+        options: {
+          transpileOnly: true,
+        }
+      },
+      {
+        test: /\.svg$/,
+        loader: "svg-inline-loader",
+        options: {
+          classPrefix: true
+        }
+      },
+      {
+        test: /\.html$/,
+        use: ["raw-loader"]
+      },
+      {
+        test: /\.md?$/,
+        use: [
+          { loader: "html-loader" },
+          { loader: "markdown-loader" }
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          {loader: "isomorphic-style-loader"},
+          {
+            loader: "css-loader",
+            options: {
+              modules: true,
+              localIdentName: "[name]__[local]__[hash:base64:3]"
+            }
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              plugins: function () {
+                return [
+                  require('precss'),
+                  require('autoprefixer')
+                ];
+              }
+            }
+          },
+          { loader: "sass-loader" }
+        ]
+      }
+    ],
   },
   node: {
     fs: "empty"
@@ -58,6 +80,6 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
     new webpack.optimize.OccurrenceOrderPlugin,
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
 };
