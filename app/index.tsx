@@ -19,6 +19,13 @@ import { rootReducer, initialState, IAppState } from "./rootReducer";
 // routes
 import routes from "./routes";
 
+// Load bootstrap
+if (!EnvChecker.isServer()) {
+  (window as any).jQuery = (window as any).$ = require("jquery");
+  (window as any).Tether = require("tether");
+  require("bootstrap");
+}
+
 let history: History;
 if (EnvChecker.isServer()) {
   history = createMemoryHistory();

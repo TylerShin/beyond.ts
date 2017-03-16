@@ -58,7 +58,8 @@ module.exports = {
               plugins: function () {
                 return [
                   require('precss'),
-                  require('autoprefixer')
+                  require('autoprefixer'),
+                  require('postcss-flexbugs-fixes'),
                 ];
               }
             }
