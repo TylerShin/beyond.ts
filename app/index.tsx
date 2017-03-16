@@ -20,6 +20,7 @@ import { rootReducer, initialState, IAppState } from "./rootReducer";
 import routes from "./routes";
 
 // Load bootstrap
+// If you don't want to use Bootstrap delete below lines and relevant packages
 if (!EnvChecker.isServer()) {
   (window as any).jQuery = (window as any).$ = require("jquery");
   (window as any).Tether = require("tether");
