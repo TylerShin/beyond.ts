@@ -33,7 +33,7 @@ export default class NavbarComponent extends React.PureComponent<INavbarComponen
                 <Link className="nav-link" to="/docs">Documentation</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/users/tylorshin">Ashyc Example</Link>
+                <Link className="nav-link" to="/users/tylorshin">Async Example</Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="mailto:shincode@icloud.com">Contact</a>
