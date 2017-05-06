@@ -10,6 +10,7 @@ import IntroDocumentationComponent from "./components/documentation/intro";
 import AdvancedSettingsDocumentationComponent from "./components//documentation/advanced";
 import InstallationDocumentationComponent from "./components/documentation/installation";
 import BeforeStartDocumentationComponent from "./components/documentation/beforeStart";
+import BasicSettingsDocumentationComponent from "./components/documentation/basicSettings";
 // actions
 import { getUserInfo } from "./components/user/actions";
 // store
@@ -33,6 +34,7 @@ const routeMap = ([
     <Route path="docs" component={DocumentationComponent}>
       <Route path="beforestart" component={BeforeStartDocumentationComponent} />
       <Route path="installation" component={InstallationDocumentationComponent} />
+      <Route path="basicsettings" component={BasicSettingsDocumentationComponent} />
       <Route path="advancedsettings" component={AdvancedSettingsDocumentationComponent} />
       <IndexRoute component={IntroDocumentationComponent} />
     </Route>

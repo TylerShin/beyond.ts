@@ -13,7 +13,7 @@ You need S3 bucket to store bundled javascript file bundled for a browsers.
 If you are interested in this, read [advanced settings](/docs/advancedsettings)
 
 
-So, here is what you should do.  
+So, here is what you should do.
 1. Create S3 bucket.
 
 ![create S3](https://s3.amazonaws.com/serverless-react-tylor-app-assets/Screenshot+from+2017-03-15+20-04-18.png)
@@ -24,7 +24,9 @@ So, here is what you should do.
 After that Set S3 Bucket information in <root_directory>/scripts/builds/config.
 
 Below one is example and default setting.
-```typescript
+
+```
+// <root_directory>/scripts/builds/configs
 export const AWS_S3_BUCKET: string = "serverless-react-tylor-app";
 export const AWS_S3_FOLDER_PREFIX: string = "react-app";
 ```
