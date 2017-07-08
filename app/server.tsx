@@ -15,7 +15,7 @@ import EnvChecker from "./helpers/envChecker";
 // root reducer
 import { rootReducer, initialState } from "./rootReducer";
 // routes
-import routes from "./routes";
+import createRoute from "./routes";
 // deploy
 import * as fs from "fs";
 import * as DeployConfig from "../scripts/builds/config";
@@ -32,6 +32,7 @@ const store = createStore(
   // TODO: Add InitialState and Define State types to change 'any' type
   applyMiddleware(routerMid, thunkMiddleware),
 );
+const routes = createRoute(store);
 
 export async function serverSideRender(requestUrl: string, scriptPath: string) {
   let renderedHTML: string;

@@ -17,7 +17,7 @@ import CssInjector from "./helpers/cssInjector";
 // root reducer
 import { rootReducer, initialState, IAppState } from "./rootReducer";
 // routes
-import routes from "./routes";
+import createRoute from "./routes";
 
 // Load bootstrap
 // If you don't want to use Bootstrap delete below lines and relevant packages
@@ -99,6 +99,7 @@ const appHistory = ReactRouterRedux.syncHistoryWithStore(
 );
 
 export const appStore = store;
+const routes = createRoute(store);
 
 // Browser Side Rendering to develop React Web-app
 if (!EnvChecker.isServer()) {

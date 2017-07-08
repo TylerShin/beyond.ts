@@ -14,32 +14,34 @@ import BasicSettingsDocumentationComponent from "./components/documentation/basi
 // actions
 import { getUserInfo } from "./components/user/actions";
 // store
-import { appStore } from "./";
+//import { store } from "./";
 
-const routeMap = ([
-  <Route path="/" component={RootComponent}>
-    <Route
-      path="users/:username"
-      getComponent={async (nextState: Router.RouterState, callback: Function) => {
-        const newUsername = nextState.params["username"];
-        try {
-          await appStore.dispatch(getUserInfo(newUsername));
-          callback(null, GithubUserContainer);
-        } catch (err) {
-          // return callback(null, Status404);
-          throw err;
-        }
-      }}
-    />
-    <Route path="docs" component={DocumentationComponent}>
-      <Route path="beforestart" component={BeforeStartDocumentationComponent} />
-      <Route path="installation" component={InstallationDocumentationComponent} />
-      <Route path="basicsettings" component={BasicSettingsDocumentationComponent} />
-      <Route path="advancedsettings" component={AdvancedSettingsDocumentationComponent} />
-      <IndexRoute component={IntroDocumentationComponent} />
-    </Route>
-    <IndexRoute component={HomeComponent} />
-  </Route>,
-]);
+const createRoute = (store) => {
+  return ([
+    <Route path="/" component={RootComponent}>
+      <Route
+        path="users/:username"
+        getComponent={async (nextState: Router.RouterState, callback: Function) => {
+          const newUsername = nextState.params["username"];
+          try {
+            await store.dispatch(getUserInfo(newUsername));
+            callback(null, GithubUserContainer);
+          } catch (err) {
+            // return callback(null, Status404);
+            throw err;
+          }
+        }}
+      />
+      <Route path="docs" component={DocumentationComponent}>
+        <Route path="beforestart" component={BeforeStartDocumentationComponent} />
+        <Route path="installation" component={InstallationDocumentationComponent} />
+        <Route path="basicsettings" component={BasicSettingsDocumentationComponent} />
+        <Route path="advancedsettings" component={AdvancedSettingsDocumentationComponent} />
+        <IndexRoute component={IntroDocumentationComponent} />
+      </Route>
+      <IndexRoute component={HomeComponent} />
+    </Route>,
+  ]);
+}
 
-export default routeMap;
+export default createRoute;
