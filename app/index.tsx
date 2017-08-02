@@ -115,7 +115,7 @@ if (!EnvChecker.isServer()) {
 
 // Server Side Rendering to test Server Side Rendering
 if (EnvChecker.isServer() && process.env.SSR_TEST) {
-  serverSideRender("/", "mockedScriptPath")
+  serverSideRender("/users/tylorshin", "mockedScriptPath")
     .then((res: any) => {
       console.log(res);
     })
