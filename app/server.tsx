@@ -95,8 +95,7 @@ export async function handler(event: LambdaProxy.Event, context: LambdaProxy.Con
 
     try {
       const bundledJsForBrowserPath = `https://s3.amazonaws.com/${DeployConfig.AWS_S3_BUCKET}/${DeployConfig.AWS_S3_FOLDER_PREFIX}/${version}/bundleBrowser.js`;
-      const response = await serverSideRender(requestPath, bundledJsForBrowserPath); // NOTE: Should change this address
-
+      const response = await serverSideRender(requestPath, bundledJsForBrowserPath);
       console.log(response);
       context.succeed({
         statusCode: 200,
@@ -107,8 +106,14 @@ export async function handler(event: LambdaProxy.Event, context: LambdaProxy.Con
         body: response,
       });
     } catch (e) {
-      console.error(e);
-      console.error(e.meesage);
+      context.succeed({
+        statusCode: 500,
+        headers: {
+          "Content-Type": "text/html",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify(e.meesage),
+      });
     }
   }
-};
+}
