@@ -9,7 +9,7 @@ import { serverSideRender, handler as lambdaHandler } from "./server";
 // redux middlewares
 import * as ReactRouterRedux from "react-router-redux";
 import thunkMiddleware from "redux-thunk";
-import * as createLogger from "redux-logger";
+import { createLogger } from "redux-logger";
 import { History } from "history";
 // helpers
 import EnvChecker from "./helpers/envChecker";
@@ -18,14 +18,6 @@ import CssInjector from "./helpers/cssInjector";
 import { rootReducer, initialState, IAppState } from "./rootReducer";
 // routes
 import createRoute from "./routes";
-
-// Load bootstrap
-// If you don't want to use Bootstrap delete below lines and relevant packages
-if (!EnvChecker.isServer()) {
-  (window as any).jQuery = (window as any).$ = require("jquery");
-  (window as any).Tether = require("tether");
-  require("bootstrap");
-}
 
 let history: History;
 if (EnvChecker.isServer()) {
@@ -38,7 +30,7 @@ if (EnvChecker.isServer()) {
   }
 }
 
-const routerMid: Redux.Middleware = ReactRouterRedux.routerMiddleware(history);
+const routerMid: Redux.Middleware = ReactRouterRedux.routerMiddleware(history as any);
 
 // Create store
 let AppInitialState: IAppState;
@@ -53,7 +45,6 @@ if (!EnvChecker.isServer()) {
       }
     }
     AppInitialState = appInitialState as IAppState;
-
   } catch (err) {
     console.error(err);
     console.warn("There is no initial state from server");
@@ -72,7 +63,7 @@ if (EnvChecker.isServer() || !EnvChecker.isDev()) {
 } else {
   // Set logger middleware to convert from ImmutableJS to plainJS
   const logger = createLogger({
-    stateTransformer: (state) => {
+    stateTransformer: state => {
       const newState: any = {}; // HACK: Should assign proper type later
       for (const i of Object.keys(state)) {
         if (Immutable.Iterable.isIterable(state[i])) {
@@ -85,18 +76,11 @@ if (EnvChecker.isServer() || !EnvChecker.isDev()) {
     },
   });
 
-  store = createStore(
-    rootReducer,
-    AppInitialState,
-    applyMiddleware(routerMid, thunkMiddleware, logger),
-  );
+  store = createStore(rootReducer, AppInitialState, applyMiddleware(routerMid, thunkMiddleware, logger));
 }
 
 // Create history with store
-const appHistory = ReactRouterRedux.syncHistoryWithStore(
-  history,
-  store,
-);
+const appHistory = ReactRouterRedux.syncHistoryWithStore(history, store);
 
 export const appStore = store;
 const routes = createRoute(store);
@@ -119,7 +103,7 @@ if (EnvChecker.isServer() && process.env.SSR_TEST) {
     .then((res: any) => {
       console.log(res);
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
     });
 }
