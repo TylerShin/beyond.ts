@@ -2,7 +2,6 @@ import * as Immutable from "immutable";
 import * as React from "react";
 import * as ReactDom from "react-dom";
 import { applyMiddleware, createStore } from "redux";
-import { Router, createMemoryHistory, browserHistory, hashHistory } from "react-router";
 import { Provider } from "react-redux";
 // server
 import { serverSideRender, handler as lambdaHandler } from "./server";
@@ -10,23 +9,23 @@ import { serverSideRender, handler as lambdaHandler } from "./server";
 import * as ReactRouterRedux from "react-router-redux";
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
-import { History } from "history";
+import { History, createMemoryHistory, createHistory, createHashHistory } from "history";
 // helpers
 import EnvChecker from "./helpers/envChecker";
 import CssInjector from "./helpers/cssInjector";
 // root reducer
 import { rootReducer, initialState, IAppState } from "./rootReducer";
 // routes
-import createRoute from "./routes";
+import routes from "./routes";
 
 let history: History;
 if (EnvChecker.isServer()) {
   history = createMemoryHistory();
 } else {
   if (EnvChecker.isDev()) {
-    history = hashHistory;
+    history = createHashHistory();
   } else {
-    history = browserHistory;
+    history = createHistory();
   }
 }
 
@@ -79,18 +78,14 @@ if (EnvChecker.isServer() || !EnvChecker.isDev()) {
   store = createStore(rootReducer, AppInitialState, applyMiddleware(routerMid, thunkMiddleware, logger));
 }
 
-// Create history with store
-const appHistory = ReactRouterRedux.syncHistoryWithStore(history, store);
-
-export const appStore = store;
-const routes = createRoute(store);
-
 // Browser Side Rendering to develop React Web-app
 if (!EnvChecker.isServer()) {
   ReactDom.render(
     <CssInjector>
       <Provider store={store}>
-        <Router history={appHistory} children={routes} />
+        <ReactRouterRedux.ConnectedRouter history={history}>
+          {routes}
+        </ReactRouterRedux.ConnectedRouter>
       </Provider>
     </CssInjector>,
     document.getElementById("react-app"),
@@ -99,7 +94,7 @@ if (!EnvChecker.isServer()) {
 
 // Server Side Rendering to test Server Side Rendering
 if (EnvChecker.isServer() && process.env.SSR_TEST) {
-  serverSideRender("/users/tylorshin", "mockedScriptPath")
+  serverSideRender("/", "mockedScriptPath")
     .then((res: any) => {
       console.log(res);
     })

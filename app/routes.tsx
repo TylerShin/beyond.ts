@@ -1,30 +1,33 @@
 import * as React from "react";
-import { IndexRoute, Route } from "react-router";
+import { Route, RouteProps } from "react-router-dom";
 // containers
 import RootComponent from "./components/root";
 import HomeComponent from "./components/home";
 import DocumentationComponent from "./components/documentation";
-import IntroDocumentationComponent from "./components/documentation/intro";
-import AdvancedSettingsDocumentationComponent from "./components//documentation/advanced";
-import InstallationDocumentationComponent from "./components/documentation/installation";
-import BeforeStartDocumentationComponent from "./components/documentation/beforeStart";
-import BasicSettingsDocumentationComponent from "./components/documentation/basicSettings";
+
 // store
 //import { store } from "./";
 
-const createRoute = store => {
-  return [
-    <Route path="/" component={RootComponent}>
-      <Route path="docs" component={DocumentationComponent}>
-        <Route path="beforestart" component={BeforeStartDocumentationComponent} />
-        <Route path="installation" component={InstallationDocumentationComponent} />
-        <Route path="basicsettings" component={BasicSettingsDocumentationComponent} />
-        <Route path="advancedsettings" component={AdvancedSettingsDocumentationComponent} />
-        <IndexRoute component={IntroDocumentationComponent} />
-      </Route>
-      <IndexRoute component={HomeComponent} />
-    </Route>,
-  ];
-};
+interface ILazyRouteProps extends RouteProps {
+  loadData?: Function;
+}
 
-export default createRoute;
+export const routesMapServer: ILazyRouteProps[] = [
+  {
+    path: "/docs",
+    component: DocumentationComponent,
+  },
+  {
+    path: "/",
+    component: HomeComponent,
+  },
+];
+
+const routesMap = (
+  <RootComponent>
+    <Route path="/" component={HomeComponent} exact />
+    <Route path="/docs" component={DocumentationComponent} exact />
+  </RootComponent>
+);
+
+export default routesMap;

@@ -1,15 +1,11 @@
 import * as Redux from "redux";
-import * as githubUserReducer from "./components/user/reducer";
 import { routerReducer } from "react-router-redux";
 
 export interface IAppState {
   routing?: any;
-  githubUser: githubUserReducer.IUserStateManager;
 }
 
-export const initialState: IAppState = {
-  githubUser: githubUserReducer.GITHUB_USER_INITIAL_STATE,
-};
+export const initialState: IAppState = {};
 
 export interface IStateManager<T, S> {
   get(key: "meta"): T;
@@ -21,5 +17,4 @@ export interface IStateManager<T, S> {
 
 export const rootReducer = Redux.combineReducers({
   routing: routerReducer,
-  githubUser: githubUserReducer.reducer,
 });

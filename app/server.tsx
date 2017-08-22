@@ -1,7 +1,9 @@
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
 import { applyMiddleware, createStore } from "redux";
-import { RouterContext, match, createMemoryHistory } from "react-router";
+import { createMemoryHistory } from "history";
+import { StaticRouter, matchPath } from "react-router-dom";
+import Helmet from "react-helmet";
 import { Provider } from "react-redux";
 // interfaces
 import * as LambdaProxy from "./typings/lambda";
@@ -15,7 +17,7 @@ import EnvChecker from "./helpers/envChecker";
 // root reducer
 import { rootReducer, initialState } from "./rootReducer";
 // routes
-import createRoute from "./routes";
+import routes, { routesMapServer } from "./routes";
 // deploy
 import * as fs from "fs";
 import * as DeployConfig from "../scripts/builds/config";
@@ -32,49 +34,43 @@ const store = createStore(
   // TODO: Add InitialState and Define State types to change 'any' type
   applyMiddleware(routerMid, thunkMiddleware),
 );
-const routes = createRoute(store);
 
 export async function serverSideRender(requestUrl: string, scriptPath: string) {
-  let renderedHTML: string;
   let stringifiedInitialReduxState: string;
 
-  await new Promise<string>((resolve, reject) => {
-    match({ routes, location: requestUrl }, (error, redirectLocation, renderProps) => {
-      if (error) {
-        console.log(error);
-        reject(error);
-      } else if (redirectLocation) {
-        resolve();
-        // TODO: do redirect and give 302
-      } else if (renderProps) {
-        stringifiedInitialReduxState = JSON.stringify(store.getState());
-
-        try {
-          renderedHTML = ReactDOMServer.renderToString(
-            <CssInjector>
-              <Provider store={store}>
-                <RouterContext {...renderProps} />
-              </Provider>
-            </CssInjector>,
-          );
-        } catch (e) {
-          console.log(e);
-          reject(e);
+  await Promise.all(
+    routesMapServer
+      .filter(route => {
+        const match = matchPath<any>(requestUrl, route);
+        return !!match;
+      })
+      .slice(0, 1)
+      .map(route => {
+        const match = matchPath<any>(requestUrl, route);
+        if (match && route.loadData) {
+          return route.loadData();
         }
-        resolve(renderedHTML);
-      } else {
-        console.log("404 Error");
-        reject(new Error("404x"));
-      }
-    });
-  });
+      }),
+  );
 
+  const renderedHTML = ReactDOMServer.renderToString(
+    <CssInjector>
+      <Provider store={store}>
+        <StaticRouter location={requestUrl}>
+          {routes}
+        </StaticRouter>
+      </Provider>
+    </CssInjector>,
+  );
+
+  const head = Helmet.rewind();
   const cssArr = Array.from(css);
   const fullHTML: string = await staticHTMLWrapper(
     renderedHTML,
     scriptPath,
     stringifiedInitialReduxState,
     cssArr.join(""),
+    head,
   );
   return fullHTML;
 }
