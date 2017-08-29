@@ -6,13 +6,14 @@
   "scripts": {
     "pack": "rm -f dist.zip && rm -f dist/bundleBrowser.js && cp scripts/package.json dist/package.json && cd dist && npm install --cache=./.npm --production && zip -r ../dist.zip . ** && cd ..",
     "clean": "rm -rf dist && rm -rf temp && rm -f dist.zip",
-    "build": "npm run clean && webpack --config webpack.prod.config.js -p && npm run build-browser",
-    "build-browser": "webpack --config webpack.browser.config.js -p",
+    "build": "npm run clean && npm run build:server && npm run build:browser",
+    "build:server": " webpack --config webpack.prod.config.js -p",
+    "build:browser": "webpack --config webpack.browser.config.js -p",
     "deploy:stage": "npm run build && ts-node scripts/deployToStage.ts && cp temp/version dist && cp scripts/handler.js dist && npm run pack && serverless deploy --stage stage",
     "deploy:prod": "npm run build && ts-node scripts/deployToStage.ts && cp temp/version dist && cp scripts/handler.js dist && npm run pack && serverless deploy --stage production",
     "dev": "webpack-dev-server --progress --colors",
     "unit-test": "rm -r output | jest --coverage",
-    "ssr-test": "npm run build && SSR_TEST=true node dist/bundle.js",
+    "ssr-test": "npm run build:server && SSR_TEST=true node dist/bundle.js",
     "test": "npm run lint && npm run unit-test && npm run ssr-test"
   },
   "engines": {
@@ -71,7 +72,8 @@
     "ts-node": "^1.6.0",
     "typescript": "^2.4.2",
     "webpack": "^3.5.5",
-    "webpack-dev-server": "^2.7.1"
+    "webpack-dev-server": "^2.7.1",
+    "webpack-merge": "^4.1.0"
   },
   "dependencies": {
     "axios": "^0.16.2",
