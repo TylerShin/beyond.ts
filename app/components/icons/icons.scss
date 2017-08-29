@@ -1,0 +1,11 @@
+.icon {
+  :global {
+    .stroke-only {
+      fill: none !important;
+    }
+
+    .fill-only {
+      stroke: none !important;
+    }
+  }
+}

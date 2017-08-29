@@ -20,9 +20,10 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        loader: "svg-inline-loader",
+        loader: "svg-sprite-loader",
         options: {
-          classPrefix: true,
+          classPrefix: false,
+          idPrefix: true,
         },
       },
       {
