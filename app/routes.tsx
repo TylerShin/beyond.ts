@@ -5,9 +5,6 @@ import RootComponent from "./components/root";
 import HomeComponent from "./components/home";
 import DocumentationComponent from "./components/documentation";
 
-// store
-//import { store } from "./";
-
 interface ILazyRouteProps extends RouteProps {
   loadData?: Function;
 }

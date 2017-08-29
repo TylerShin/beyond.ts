@@ -10,7 +10,7 @@
     "build-browser": "webpack --config webpack.browser.config.js -p",
     "deploy:stage": "npm run build && ts-node scripts/deployToStage.ts && cp temp/version dist && cp scripts/handler.js dist && npm run pack && serverless deploy --stage stage",
     "deploy:prod": "npm run build && ts-node scripts/deployToStage.ts && cp temp/version dist && cp scripts/handler.js dist && npm run pack && serverless deploy --stage production",
-    "dev": "webpack-dev-server --content-base app/ --hot --progress --colors --host 0.0.0.0",
+    "dev": "webpack-dev-server --progress --colors",
     "unit-test": "rm -r output | jest --coverage",
     "ssr-test": "npm run build && SSR_TEST=true node dist/bundle.js",
     "test": "npm run lint && npm run unit-test && npm run ssr-test"
@@ -67,17 +67,17 @@
     "svg-inline-loader": "^0.7.1",
     "svg-sprite-loader": "^3.2.4",
     "ts-jest": "19.0.1",
-    "ts-loader": "^2.3.3",
+    "ts-loader": "^2.3.4",
     "ts-node": "^1.6.0",
     "typescript": "^2.4.2",
-    "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.4.2"
+    "webpack": "^3.5.5",
+    "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
     "axios": "^0.16.2",
     "babel-polyfill": "^6.20.0",
     "history": "^4.6.3",
-    "immutable": "^4.0.0-rc.2",
+    "immutable": "^3.8.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-helmet": "^5.1.3",
@@ -96,17 +96,9 @@
     "globals": {
       "__TS_CONFIG__": "tsconfig-test.json"
     },
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "testPathDirs": [
-      "<rootDir>/app"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "testPathDirs": ["<rootDir>/app"],
+    "coveragePathIgnorePatterns": ["/node_modules/"],
     "coverageDirectory": "output/coverage",
     "testRegex": "__tests__/.*_spec.tsx$",
     "unmockedModulePathPatterns": [
@@ -118,9 +110,7 @@
       "/.*\\.scss$",
       "<rootDir>/app/__tests__"
     ],
-    "setupFiles": [
-      "<rootDir>/app/__tests__/preload.tsx"
-    ],
+    "setupFiles": ["<rootDir>/app/__tests__/preload.tsx"],
     "automock": true
   }
 }

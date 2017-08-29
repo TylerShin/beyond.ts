@@ -65,7 +65,7 @@ if (EnvChecker.isServer() || !EnvChecker.isDev()) {
     stateTransformer: state => {
       const newState: any = {}; // HACK: Should assign proper type later
       for (const i of Object.keys(state)) {
-        if (Immutable.Iterable.isIterable(state[i])) {
+        if ((Immutable as any).Iterable.isIterable(state[i])) {
           newState[i] = state[i].toJS();
         } else {
           newState[i] = state[i];
