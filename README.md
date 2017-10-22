@@ -4,7 +4,7 @@ This project is the starter kit for the who wants to use ReactJS isomorphic-rend
 
 The [Demo & Docs](https://d3ujodob71n39b.cloudfront.net) is now available!
 
-[Korean](https://https://github.com/TylorShin/react-universal-in-serverless/README.ko.md)
+[Korean](https://github.com/TylorShin/react-universal-in-serverless/blob/master/README.ko.md)
 
  **Packages**
 - **TypeScript** - Basic language
