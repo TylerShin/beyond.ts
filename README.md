@@ -4,15 +4,13 @@ This project is the starter kit for the who wants to use ReactJS isomorphic-rend
 
 The [Demo & Docs](https://d3ujodob71n39b.cloudfront.net) is now available!
 
-**PLEASE! contribute this project!**
-
+[Korean](https://https://github.com/TylorShin/react-universal-in-serverless/README.ko.md)
 
  **Packages**
-- **TypeScript** - basic language
-- **ReactJS** - front-end framework
+- **TypeScript** - Basic language
+- **ReactJS** - Frontend library
 - **Redux** - App state manager
 - **Serverless** - managing AWS Lambda, API Gateway, and the others within cloud-formation
-
 
 
 # Before Start
