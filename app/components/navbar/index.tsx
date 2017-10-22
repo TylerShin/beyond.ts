@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { withStyles } from "../../helpers/withStylesHelper";
 
 const styles = require("./navbar.scss");
@@ -20,23 +20,33 @@ export default class NavbarComponent extends React.PureComponent<INavbarComponen
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon" />
         </button>
         <div className="container">
-          <a className="navbar-brand" href="#">React &#10084; Lambda</a>
+          <a className="navbar-brand" href="#">
+            React &#10084; Lambda
+          </a>
           <div className="collapse navbar-collapse justify-content-end" id="main-navbar">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link" to="/">HOME</Link>
+                <Link className="nav-link" to="/">
+                  HOME
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/docs">Documentation</Link>
+                <Link className="nav-link" to="/docs">
+                  Documentation
+                </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/users/tylorshin">Async Example</Link>
+                <Link className="nav-link" to="/users/tylorshin">
+                  Async Example
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="mailto:shincode@icloud.com">Contact</a>
+                <a className="nav-link" href="mailto:shincode@icloud.com">
+                  Contact
+                </a>
               </li>
             </ul>
           </div>

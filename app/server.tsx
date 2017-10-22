@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
 import { applyMiddleware, createStore } from "redux";
-import { RouterContext, match, createMemoryHistory } from "react-router";
+import { RouterContext, match, createMemoryHistory } from "react-router-dom";
 import { Provider } from "react-redux";
 // interfaces
 import * as LambdaProxy from "./typings/lambda";
