@@ -1,8 +1,9 @@
 import * as React from "react";
-import * as ReactDOMServer from "react-dom/server";
-import { applyMiddleware, createStore } from "redux";
-import { RouterContext, match, createMemoryHistory } from "react-router-dom";
 import { Provider } from "react-redux";
+import * as ReactDOMServer from "react-dom/server";
+import { createMemoryHistory } from "history";
+import { applyMiddleware, createStore } from "redux";
+import { StaticRouter, matchPath } from "react-router-dom";
 // interfaces
 import * as LambdaProxy from "./typings/lambda";
 // redux middlewares
@@ -12,62 +13,47 @@ import thunkMiddleware from "redux-thunk";
 import { staticHTMLWrapper } from "./helpers/htmlWrapper";
 import CssInjector, { css } from "./helpers/cssInjector";
 import EnvChecker from "./helpers/envChecker";
-// root reducer
-import { rootReducer, initialState } from "./rootReducer";
-// routes
-import createRoute from "./routes";
+import { RootRoutes, serverRootRoutes } from "./routes";
 // deploy
 import * as fs from "fs";
 import * as DeployConfig from "../scripts/builds/config";
-
-const history = createMemoryHistory();
-const routerMid: Redux.Middleware = ReactRouterRedux.routerMiddleware(history);
-
-// Create store
-const AppInitialState = initialState;
-
-const store = createStore(
-  rootReducer,
-  AppInitialState,
-  // TODO: Add InitialState and Define State types to change 'any' type
-  applyMiddleware(routerMid, thunkMiddleware),
-);
-const routes = createRoute(store);
+import { rootReducer, initialState } from "./rootReducer";
 
 export async function serverSideRender(requestUrl: string, scriptPath: string) {
-  let renderedHTML: string;
   let stringifiedInitialReduxState: string;
 
-  await new Promise<string>((resolve, reject) => {
-    match({ routes, location: requestUrl }, (error, redirectLocation, renderProps) => {
-      if (error) {
-        console.log(error);
-        reject(error);
-      } else if (redirectLocation) {
-        resolve();
-        // TODO: do redirect and give 302
-      } else if (renderProps) {
-        stringifiedInitialReduxState = JSON.stringify(store.getState());
+  const promises: Promise<any>[] = [];
+  const history = createMemoryHistory();
+  const routerMid: Redux.Middleware = ReactRouterRedux.routerMiddleware(history);
+  const AppInitialState = initialState;
 
-        try {
-          renderedHTML = ReactDOMServer.renderToString(
-            <CssInjector>
-              <Provider store={store}>
-                <RouterContext {...renderProps} />
-              </Provider>
-            </CssInjector>,
-          );
-        } catch (e) {
-          console.log(e);
-          reject(e);
-        }
-        resolve(renderedHTML);
-      } else {
-        console.log("404 Error");
-        reject(new Error("404x"));
-      }
-    });
+  const store = createStore(
+    rootReducer,
+    AppInitialState,
+    // TODO: Add InitialState and Define State types to change 'any' type
+    applyMiddleware(routerMid, thunkMiddleware),
+  );
+
+  serverRootRoutes.some(route => {
+    const match = matchPath(requestUrl, route);
+
+    if (match && route.loadData) {
+      promises.push(route.loadData(match));
+    }
+    return !!match;
   });
+
+  await Promise.all(promises).then(data => {
+    console.log(data);
+  });
+
+  const renderedHTML = ReactDOMServer.renderToString(
+    <CssInjector>
+      <StaticRouter location={requestUrl}>
+        <Provider store={store}>{RootRoutes}</Provider>
+      </StaticRouter>
+    </CssInjector>,
+  );
 
   const cssArr = Array.from(css);
   const fullHTML: string = await staticHTMLWrapper(

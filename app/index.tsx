@@ -17,15 +17,7 @@ import CssInjector from "./helpers/cssInjector";
 // root reducer
 import { rootReducer, initialState, IAppState } from "./rootReducer";
 // routes
-import routes from "./routes";
-
-// Load bootstrap
-// If you don't want to use Bootstrap delete below lines and relevant packages
-if (!EnvChecker.isServer()) {
-  (window as any).jQuery = (window as any).$ = require("jquery");
-  (window as any).Tether = require("tether");
-  require("bootstrap");
-}
+import { RootRoutes } from "./routes";
 
 let history: History;
 if (EnvChecker.isServer()) {
@@ -88,7 +80,7 @@ if (!EnvChecker.isServer()) {
   ReactDom.render(
     <CssInjector>
       <Provider store={store}>
-        <Router history={history} children={routes} />
+        <Router history={history} children={RootRoutes} />
       </Provider>
     </CssInjector>,
     document.getElementById("react-app"),

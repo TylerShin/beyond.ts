@@ -10,7 +10,7 @@ interface INavbarComponentProps {}
 export default class NavbarComponent extends React.PureComponent<INavbarComponentProps, {}> {
   public render() {
     return (
-      <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+      <nav className={styles.navbarWrapper}>
         <button
           className="navbar-toggler navbar-toggler-right"
           type="button"

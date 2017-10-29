@@ -11,7 +11,46 @@ import BasicSettingsDocumentationComponent from "./components/documentation/basi
 import GithubUserContainer from "./components/user";
 // import IntroDocumentationComponent from "./components/documentation/intro";
 
-const rootRoutes = (
+interface IServerRoutesMap {
+  path: string;
+  component: any;
+  loadData: (params: any) => Promise<any> | null;
+}
+
+export const serverRootRoutes: IServerRoutesMap[] = [
+  {
+    path: "/docs",
+    component: DocumentationComponent,
+    loadData: null,
+  },
+  {
+    path: "/beforestart",
+    component: BeforeStartDocumentationComponent,
+    loadData: null,
+  },
+  {
+    path: "/installation",
+    component: InstallationDocumentationComponent,
+    loadData: null,
+  },
+  {
+    path: "/basicsettings",
+    component: BasicSettingsDocumentationComponent,
+    loadData: null,
+  },
+  {
+    path: "/advancedsettings",
+    component: AdvancedSettingsDocumentationComponent,
+    loadData: null,
+  },
+  {
+    path: "/users/:username",
+    component: GithubUserContainer,
+    loadData: null,
+  },
+];
+
+export const RootRoutes = (
   <div>
     <Root>
       <Switch>
@@ -25,5 +64,3 @@ const rootRoutes = (
     </Root>
   </div>
 );
-
-export default rootRoutes;

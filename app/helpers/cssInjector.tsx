@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as PropTypes from "prop-types";
 import EnvChecker from "./envChecker";
 
 interface ICssInjectorContainerProps extends CssInjector {}
@@ -6,6 +7,10 @@ interface ICssInjectorContainerProps extends CssInjector {}
 export const css = new Set(); // CSS for all rendered React components
 
 class CssInjector extends React.PureComponent<ICssInjectorContainerProps, any> {
+  static childContextTypes = {
+    insertCss: PropTypes.func,
+  };
+
   public getChildContext() {
     return {
       insertCss(...styles: any[]) {
