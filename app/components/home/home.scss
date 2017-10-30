@@ -1,0 +1,56 @@
+@import "../variables";
+
+.homeWrapper {
+  position: relative;
+  height: 350px;
+}
+
+.homeWrapperBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-color: #78909c;
+  background-size: cover;
+  filter: opacity(0.9);
+}
+
+.homeContent {
+  position: relative;
+  padding: 30px;
+  height: 100%;
+  width: $container-width;
+  margin: 0 auto;
+  z-index: 2;
+  color: #fff;
+}
+
+.headline {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.subHeadline {
+  font-size: 20px;
+}
+
+.linkButton {
+  position: absolute;
+  left: 30px;
+  bottom: 90px;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #ddd;
+  height: 45px;
+  color: #fff;
+
+  &:hover {
+    background-color: #546e7a;
+  }
+}

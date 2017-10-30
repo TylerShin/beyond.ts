@@ -1,5 +1,6 @@
 import * as React from "react";
 import Helmet from "react-helmet";
+import { Link } from "react-router-dom";
 import { withStyles } from "../../helpers/withStylesHelper";
 
 const styles = require("./home.scss");
@@ -12,10 +13,16 @@ export default class HomeComponent extends React.PureComponent<IHomeComponentPro
     return (
       <div className={styles.homeWrapper}>
         <Helmet title="react-universal-in-serverless" />
-        <h2>
-          <b>Hello</b> Universal React + Serverless!
-        </h2>
-        <div>You can start any universal rendering react app with serverless architecture in 5 minutes!</div>
+        <div className={styles.homeWrapperBackground} />
+        <div className={styles.homeContent}>
+          <h2 className={styles.headline}>Hello Universal React + Serverless!</h2>
+          <div className={styles.subHeadline}>
+            You can start universal rendering React web app with Serverless Framework!
+          </div>
+          <Link to="/docs" className={styles.linkButton}>
+            Go To Docs
+          </Link>
+        </div>
       </div>
     );
   }

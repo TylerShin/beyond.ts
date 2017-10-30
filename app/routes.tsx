@@ -7,7 +7,7 @@ import AdvancedSettingsDocumentationComponent from "./components//documentation/
 import InstallationDocumentationComponent from "./components/documentation/installation";
 import BeforeStartDocumentationComponent from "./components/documentation/beforeStart";
 import BasicSettingsDocumentationComponent from "./components/documentation/basicSettings";
-// import HomeComponent from "./components/home";
+import HomeComponent from "./components/home";
 import GithubUserContainer from "./components/user";
 // import IntroDocumentationComponent from "./components/documentation/intro";
 
@@ -50,10 +50,11 @@ export const serverRootRoutes: IServerRoutesMap[] = [
   },
 ];
 
-export const RootRoutes = (
+export const RootRoutes = () => (
   <div>
     <Root>
       <Switch>
+        <Route exact path="/" component={HomeComponent} />
         <Route exact path="docs" component={DocumentationComponent} />
         <Route exact path="beforestart" component={BeforeStartDocumentationComponent} />
         <Route exact path="installation" component={InstallationDocumentationComponent} />

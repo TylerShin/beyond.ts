@@ -50,7 +50,9 @@ export async function serverSideRender(requestUrl: string, scriptPath: string) {
   const renderedHTML = ReactDOMServer.renderToString(
     <CssInjector>
       <StaticRouter location={requestUrl}>
-        <Provider store={store}>{RootRoutes}</Provider>
+        <Provider store={store}>
+          <RootRoutes />
+        </Provider>
       </StaticRouter>
     </CssInjector>,
   );
@@ -82,7 +84,6 @@ export async function handler(event: LambdaProxy.Event, context: LambdaProxy.Con
     try {
       const bundledJsForBrowserPath = `https://s3.amazonaws.com/${DeployConfig.AWS_S3_BUCKET}/${DeployConfig.AWS_S3_FOLDER_PREFIX}/${version}/bundleBrowser.js`;
       const response = await serverSideRender(requestPath, bundledJsForBrowserPath);
-      console.log(response);
       context.succeed({
         statusCode: 200,
         headers: {

@@ -3,7 +3,7 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { History, createBrowserHistory, createHashHistory, createMemoryHistory } from "history";
 import { applyMiddleware, createStore } from "redux";
-import { Router } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 // server
 import { serverSideRender, handler as lambdaHandler } from "./server";
@@ -76,11 +76,24 @@ if (EnvChecker.isServer() || !EnvChecker.isDev()) {
 export const appStore = store;
 
 // Browser Side Rendering to develop React Web-app
-if (!EnvChecker.isServer()) {
+if (!EnvChecker.isServer() && !EnvChecker.isDev()) {
   ReactDom.render(
     <CssInjector>
       <Provider store={store}>
-        <Router history={history} children={RootRoutes} />
+        <BrowserRouter>
+          <RootRoutes />
+        </BrowserRouter>
+      </Provider>
+    </CssInjector>,
+    document.getElementById("react-app"),
+  );
+} else if (!EnvChecker.isServer() && EnvChecker.isDev()) {
+  ReactDom.render(
+    <CssInjector>
+      <Provider store={store}>
+        <HashRouter>
+          <RootRoutes />
+        </HashRouter>
       </Provider>
     </CssInjector>,
     document.getElementById("react-app"),

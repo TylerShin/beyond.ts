@@ -1,1 +1,32 @@
+@import "./normalize";
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,500,700");
 
+body {
+  color: #333;
+  font-weight: 300;
+  font-family: "Roboto", sans-serif;
+  box-sizing: border-box;
+}
+
+a {
+  color: #333;
+  font-weight: 700;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:active {
+    text-decoration: none;
+  }
+}
+
+h1,
+h2 {
+  margin: 0;
+}
+
+.rootWrapper {
+  position: fixed;
+}
