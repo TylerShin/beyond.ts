@@ -1,25 +1,23 @@
 import * as Redux from "redux";
-import * as githubUserReducer from "./components/user/reducer";
+import * as GithubUserState from "./reducers/state/githubUserPage";
+import * as GithubUserData from "./reducers/data/githubUser";
 import { routerReducer } from "react-router-redux";
 
 export interface IAppState {
   routing?: any;
-  githubUser: githubUserReducer.IUserStateManager;
+  // state
+  githubUserState: GithubUserState.IGithubUserPageStateRecord;
+  // data
+  githubUserData: GithubUserData.IGithubUserDataRecord;
 }
 
 export const initialState: IAppState = {
-  githubUser: githubUserReducer.GITHUB_USER_INITIAL_STATE,
+  githubUserState: GithubUserState.INITIAL_GITHUB_USER_PAGE_STATE_RECORD,
+  githubUserData: GithubUserData.INITIAL_GITHUB_USER_DATA_RECORD,
 };
 
-export interface IStateManager<T, S> {
-  get(key: "meta"): T;
-  get(key: "data"): S;
-
-  set(key: "meta", value: T): IStateManager<T, S>;
-  set(key: "data", value: S): IStateManager<T, S>;
-}
-
-export const rootReducer = Redux.combineReducers({
+export const rootReducer = Redux.combineReducers<IAppState>({
   routing: routerReducer,
-  githubUser: githubUserReducer.reducer,
+  githubUserState: GithubUserState.reducer,
+  githubUserData: GithubUserData.reducer,
 });

@@ -3,14 +3,13 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 import { History, createBrowserHistory, createHashHistory, createMemoryHistory } from "history";
 import { applyMiddleware, createStore } from "redux";
-import { BrowserRouter, HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-// server
-import { serverSideRender, handler as lambdaHandler } from "./server";
-// redux middlewares
 import * as ReactRouterRedux from "react-router-redux";
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
+// server
+import { serverSideRender, handler as lambdaHandler } from "./server";
+// redux middlewares
 // helpers
 import EnvChecker from "./helpers/envChecker";
 import CssInjector from "./helpers/cssInjector";
@@ -44,6 +43,7 @@ if (!EnvChecker.isServer()) {
         appInitialState[k] = Immutable.fromJS(__INITIAL_STATE__[k]);
       }
     }
+
     AppInitialState = appInitialState as IAppState;
   } catch (err) {
     console.error(err);
@@ -76,24 +76,13 @@ if (EnvChecker.isServer() || !EnvChecker.isDev()) {
 export const appStore = store;
 
 // Browser Side Rendering to develop React Web-app
-if (!EnvChecker.isServer() && !EnvChecker.isDev()) {
+if (!EnvChecker.isServer()) {
   ReactDom.render(
     <CssInjector>
       <Provider store={store}>
-        <BrowserRouter>
+        <ReactRouterRedux.ConnectedRouter history={history}>
           <RootRoutes />
-        </BrowserRouter>
-      </Provider>
-    </CssInjector>,
-    document.getElementById("react-app"),
-  );
-} else if (!EnvChecker.isServer() && EnvChecker.isDev()) {
-  ReactDom.render(
-    <CssInjector>
-      <Provider store={store}>
-        <HashRouter>
-          <RootRoutes />
-        </HashRouter>
+        </ReactRouterRedux.ConnectedRouter>
       </Provider>
     </CssInjector>,
     document.getElementById("react-app"),

@@ -21,7 +21,7 @@
   @extend %navbar-list-style;
   position: absolute;
   top: 0;
-  left: 30px;
+  left: 0;
 }
 
 .navbarLogo {
@@ -33,7 +33,7 @@
   @extend %navbar-list-style;
   position: absolute;
   top: 0;
-  right: 30px;
+  right: 0;
 }
 
 .navItem {

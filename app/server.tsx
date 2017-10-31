@@ -17,7 +17,7 @@ import { RootRoutes, serverRootRoutes } from "./routes";
 // deploy
 import * as fs from "fs";
 import * as DeployConfig from "../scripts/builds/config";
-import { rootReducer, initialState } from "./rootReducer";
+import { rootReducer, initialState, IAppState } from "./rootReducer";
 
 export async function serverSideRender(requestUrl: string, scriptPath: string) {
   let stringifiedInitialReduxState: string;
@@ -27,25 +27,26 @@ export async function serverSideRender(requestUrl: string, scriptPath: string) {
   const routerMid: Redux.Middleware = ReactRouterRedux.routerMiddleware(history);
   const AppInitialState = initialState;
 
-  const store = createStore(
-    rootReducer,
-    AppInitialState,
-    // TODO: Add InitialState and Define State types to change 'any' type
-    applyMiddleware(routerMid, thunkMiddleware),
-  );
+  const store = createStore<IAppState>(rootReducer, AppInitialState, applyMiddleware(routerMid, thunkMiddleware));
 
   serverRootRoutes.some(route => {
     const match = matchPath(requestUrl, route);
 
     if (match && route.loadData) {
-      promises.push(route.loadData(match));
+      if (match.path === "/users/:username") {
+        promises.push(route.loadData(store, (match.params as any).username));
+      }
     }
     return !!match;
   });
 
-  await Promise.all(promises).then(data => {
-    console.log(data);
-  });
+  await Promise.all(promises)
+    .then(data => {
+      console.log(data);
+    })
+    .catch(err => {
+      console.error(err);
+    });
 
   const renderedHTML = ReactDOMServer.renderToString(
     <CssInjector>
