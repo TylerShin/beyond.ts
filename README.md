@@ -6,7 +6,7 @@ The [Demo & Docs](https://d3ujodob71n39b.cloudfront.net) is now available!
 [Korean](https://github.com/TylorShin/react-universal-in-serverless/blob/master/README.ko.md)
 
 # Updating is Work In Progress
-## You can checkout upgrade branch at [here](https://github.com/TylorShin/react-universal-in-serverless/tree/upgrade-react-router) or just visit upgrade-react-router branch
+## You can checkout upgrade branch at [here](https://github.com/TylorShin/react-universal-in-serverless/tree/upgrade-packages) or just visit upgrade-packages branch
 
 ### List of upgrade part
 - React v16.0
