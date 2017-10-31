@@ -4,6 +4,14 @@ This project is the starter kit for the who wants to use ReactJS isomorphic-rend
 
 The [Demo & Docs](https://d3ujodob71n39b.cloudfront.net) is now available!
 
+# Updating is Work In Progress
+## You can checkout upgrade branch at [here](https://github.com/TylorShin/react-universal-in-serverless/tree/upgrade-react-router) or just visit upgrade-react-router branch
+
+### List of upgrade part
+- React v16.0
+- React-Router v4
+- Other dependencies
+
 [Korean](https://github.com/TylorShin/react-universal-in-serverless/blob/master/README.ko.md)
 
  **Packages**
