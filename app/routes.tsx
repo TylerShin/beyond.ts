@@ -4,10 +4,6 @@ import { Route, Switch } from "react-router-dom";
 // containers
 import Root from "./components/root";
 import DocumentationComponent from "./components/documentation";
-import AdvancedSettingsDocumentationComponent from "./components//documentation/advanced";
-import InstallationDocumentationComponent from "./components/documentation/installation";
-import BeforeStartDocumentationComponent from "./components/documentation/beforeStart";
-import BasicSettingsDocumentationComponent from "./components/documentation/basicSettings";
 import HomeComponent from "./components/home";
 import GithubUserContainer from "./components/user";
 // import IntroDocumentationComponent from "./components/documentation/intro";
@@ -24,32 +20,7 @@ interface IServerRoutesMap {
 export const serverRootRoutes: IServerRoutesMap[] = [
   {
     path: "/docs",
-    exact: true,
     component: DocumentationComponent,
-    loadData: null,
-  },
-  {
-    path: "/beforestart",
-    exact: true,
-    component: BeforeStartDocumentationComponent,
-    loadData: null,
-  },
-  {
-    path: "/installation",
-    exact: true,
-    component: InstallationDocumentationComponent,
-    loadData: null,
-  },
-  {
-    path: "/basicsettings",
-    exact: true,
-    component: BasicSettingsDocumentationComponent,
-    loadData: null,
-  },
-  {
-    path: "/advancedsettings",
-    exact: true,
-    component: AdvancedSettingsDocumentationComponent,
     loadData: null,
   },
   {
@@ -66,11 +37,7 @@ export const RootRoutes = () => (
     <Root>
       <Switch>
         <Route exact path="/" component={HomeComponent} />
-        <Route exact path="/docs" component={DocumentationComponent} />
-        <Route exact path="/beforestart" component={BeforeStartDocumentationComponent} />
-        <Route exact path="/installation" component={InstallationDocumentationComponent} />
-        <Route exact path="/basicsettings" component={BasicSettingsDocumentationComponent} />
-        <Route exact path="/advancedsettings" component={AdvancedSettingsDocumentationComponent} />
+        <Route path="/docs" component={DocumentationComponent} />
         <Route path="/users/:username" component={GithubUserContainer} />
       </Switch>
     </Root>

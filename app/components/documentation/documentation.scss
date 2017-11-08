@@ -1,5 +1,8 @@
+@import "../variables";
+
 .documentContainerWrapper {
-  margin-top: 50px;
+  width: $container-width;
+  margin: 50px auto;
 }
 
 .contentWrapper {
