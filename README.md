@@ -3,8 +3,16 @@
 This project is the starter kit for the who wants to use ReactJS isomorphic-rendering with AWS Lambda.
 
 The [Demo & Docs](https://d3ujodob71n39b.cloudfront.net) is now available!
-
 [Korean](https://github.com/TylorShin/react-universal-in-serverless/blob/master/README.ko.md)
+
+# Updating is Work In Progress
+## You can checkout upgrade branch at [here](https://github.com/TylorShin/react-universal-in-serverless/tree/upgrade-packages) or just visit upgrade-packages branch
+
+### List of upgrade part
+- React v16.0
+- React-Router v4
+- Other dependencies
+
 
  **Packages**
 - **TypeScript** - Basic language
