@@ -6,8 +6,7 @@ import { withStyles } from "../../helpers/withStylesHelper";
 
 const styles = require("./root.scss");
 
-interface IRootComponentProps {
-}
+interface IRootComponentProps {}
 
 @withStyles<typeof RootComponent>(styles)
 export default class RootComponent extends React.PureComponent<IRootComponentProps, {}> {

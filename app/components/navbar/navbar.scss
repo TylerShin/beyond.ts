@@ -1,10 +1,46 @@
-.navbarWrapper {
-  list-style: none;
-  display: flex;
+@import "../variables";
 
-  li {
-    flex-grow: 1;
-    display: inline-block;
-    vertical-align: top;
+%navbar-list-style {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.navbarWrapper {
+  background-color: transparent;
+  position: relative;
+  height: 60px;
+  width: $container-width;
+  margin: 0 auto;
+}
+
+.leftBox {
+  @extend %navbar-list-style;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.navbarLogo {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.rightBox {
+  @extend %navbar-list-style;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.navItem {
+  display: inline-block;
+  margin-left: 15px;
+
+  &:first-of-type {
+    margin-left: 0;
   }
 }

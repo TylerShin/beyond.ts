@@ -7,11 +7,11 @@ const content = require("./beforeStart.md");
 
 interface IBeforeStartDocumentationComponentProps {}
 
-export default class BeforeStartDocumentationComponent
-  extends React.PureComponent <IBeforeStartDocumentationComponentProps, {}> {
-    public render() {
-      return (
-        <ContentHighComponent rawHTML={content} />
-      );
-    }
+export default class BeforeStartDocumentationComponent extends React.PureComponent<
+  IBeforeStartDocumentationComponentProps,
+  {}
+> {
+  public render() {
+    return <ContentHighComponent rawHTML={content} />;
+  }
 }
