@@ -6,7 +6,6 @@ provider:
   stage: stage # NOTE: Override this option at package.json with CLI-command
   region: us-east-1
 
-# you can add packaging information here
 package:
   artifact: dist.zip
 
