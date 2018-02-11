@@ -1,0 +1,10 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "extends": "airbnb-base/legacy",
+  "rules": {
+    "comma-dangle": 0,
+    "global-require": 0
+  }
+}
