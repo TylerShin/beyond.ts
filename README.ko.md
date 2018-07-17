@@ -1,4 +1,4 @@
-# react-universal-in-serverless
+# beyond.ts
 
 이 프로젝트는 AWS Lambda를 사용해서 NodeJS 서버 없이 Universal(Isomorphic) rendering을 지원하는 ReactApp을 만들기 위한 starter kit 입니다.
 
@@ -29,8 +29,8 @@ serverless.yml을 통해서도 만들 수 있지만, 명시적으로 하나 더 
 # 설치 방법
 ```
 // bash
-$ git clone https://github.com/TylorShin/react-universal-in-serverless.git
-$ cd react-universal-in-serverless
+$ git clone https://github.com/TylorShin/beyond.ts.git
+$ cd beyond.ts
 $ npm install
 ```
 

@@ -12,7 +12,7 @@ export default class HomeComponent extends React.PureComponent<IHomeComponentPro
   public render() {
     return (
       <div className={styles.homeWrapper}>
-        <Helmet title="react-universal-in-serverless" />
+        <Helmet title="beyond.ts" />
         <div className={styles.homeWrapperBackground} />
         <div className={styles.homeContent}>
           <h2 className={styles.headline}>Hello Universal React + Serverless!</h2>
