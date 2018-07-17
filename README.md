@@ -41,8 +41,8 @@ Make S3 Bucket
 # How to install
 
 ```
-git clone https://github.com/TylorShin/react-universal-in-serverless.git
-cd react-universal-in-serverless
+git clone https://github.com/TylorShin/beyond.ts.git
+cd beyond.ts
 npm install
 ```
 
